@@ -1,9 +1,10 @@
 package psk.project.FileRepository.Payment.entity;
 
-import ch.qos.logback.core.status.Status;
+
 import lombok.Data;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
 import psk.project.FileRepository.Plan.entity.Plan;
+import psk.project.FileRepository.Status.entity.Status;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,9 +22,9 @@ public class Payment {
     private Date paymentDate;
 
 
-    private DefaultUser defaultUser;
+    //private DefaultUser defaultUser;
 
-    private Plan plan;
+    //private Plan plan;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="statusID")
