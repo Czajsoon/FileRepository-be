@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ## Props in project ##
-filePath.properties
+src/main/resources/filePath.properties
