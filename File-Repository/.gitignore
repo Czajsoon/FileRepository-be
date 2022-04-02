@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**src/main/resources/filePath.properties
 
 ### STS ###
 .apt_generated
@@ -33,4 +34,4 @@ build/
 .vscode/
 
 ## Props in project ##
-src/main/resources/filePath.properties
+
