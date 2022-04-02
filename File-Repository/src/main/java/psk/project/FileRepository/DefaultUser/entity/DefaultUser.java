@@ -39,6 +39,5 @@ public class DefaultUser {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
     private List<File> files;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
-    private List<SharedFile> sharedFiles;
+
 }

@@ -28,6 +28,5 @@ public class File {
     @JoinColumn(name = "defaultUserID")
     private DefaultUser defaultUser;
 
-    @OneToMany(fetch =FetchType.LAZY)
-    private List<SharedFile> sharedFiles;
+
 }
