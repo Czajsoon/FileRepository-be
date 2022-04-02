@@ -16,7 +16,7 @@ public class File {
     private Long fileID;
 
     @Column
-    private String patch;
+    private String path;
 
     @Column
     private String description;
