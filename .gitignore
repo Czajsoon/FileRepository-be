@@ -24,4 +24,4 @@ hs_err_pid*
 
 
 ## Props in project ##
-File-Repository/src/main/resources/filePath.properties
+**/File-Repository/src/main/resources/filePath.properties
