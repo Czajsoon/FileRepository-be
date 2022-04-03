@@ -10,7 +10,7 @@ import java.nio.file.*;
 @Service
 public class UploadFileImpl implements UploadFile {
 
-    @Value("${file.path.source.location}")
+    @Value("${root.directory}")
     private String path;
 
     @Override

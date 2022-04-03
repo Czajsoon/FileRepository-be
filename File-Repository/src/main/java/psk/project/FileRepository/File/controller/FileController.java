@@ -28,7 +28,12 @@ public class FileController {
     }
 
     @PostMapping("{user}/upload")
-    public ResponseEntity<?> postFile(@PathVariable(name = "user") String user, @RequestParam(value = "file") MultipartFile file) throws FileNotSavedException {
+    public ResponseEntity<?> postFile(
+            @PathVariable(name = "user") String user,
+            @RequestParam(value = "file") MultipartFile file,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "folders", required = false) String folders
+    ) throws FileNotSavedException {
         try {
             uploadFileService.save("123",file);
             log.atInfo().log("File saved!");
