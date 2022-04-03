@@ -1,14 +1,18 @@
 package psk.project.FileRepository.Plan.entity;
 
-import lombok.Data;
+import lombok.*;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
 import psk.project.FileRepository.Payment.entity.Payment;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 public class Plan {
 
     @Id
@@ -19,7 +23,7 @@ public class Plan {
     private String name;
 
     @Column
-    private Integer capacity;
+    private Double capacity;
 
     @Column
     private Double price;
