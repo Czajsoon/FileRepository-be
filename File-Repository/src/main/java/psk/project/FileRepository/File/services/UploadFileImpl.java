@@ -19,6 +19,9 @@ public class UploadFileImpl implements UploadFile {
     }
 
     private void saveFile(MultipartFile file) throws IOException {
-        Files.copy(file.getInputStream(), Path.of(path + file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(
+                file.getInputStream(),
+                Path.of(path + file.getOriginalFilename()
+                ),StandardCopyOption.REPLACE_EXISTING);
     }
 }
