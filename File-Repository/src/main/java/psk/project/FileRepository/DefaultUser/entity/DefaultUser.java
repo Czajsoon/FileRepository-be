@@ -1,6 +1,8 @@
 package psk.project.FileRepository.DefaultUser.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.GenericGenerators;
 import psk.project.FileRepository.File.entity.File;
 import psk.project.FileRepository.Plan.entity.Plan;
 import psk.project.FileRepository.SharedFile.entity.SharedFile;
@@ -13,7 +15,12 @@ import java.util.List;
 public class DefaultUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+//    @GenericGenerator(
+//            name = "UUID",
+//            strategy = "org.hibernate.id.UUIDGenerator"
+//    )
+    @Column(name = "ID", updatable = false, nullable = false)
     private Long defaultUserID;
 
     @Column
