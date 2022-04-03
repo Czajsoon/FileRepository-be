@@ -18,7 +18,7 @@ public class SharedFile {
     @JoinColumn(name = "defaultUserID")
     private DefaultUser defaultUser;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fileID")
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="fileID")
     private File file;
 }

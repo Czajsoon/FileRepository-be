@@ -21,10 +21,13 @@ public class Payment {
     @Column
     private Date paymentDate;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="defaultUserID")
+    private DefaultUser defaultUser;
 
-    //private DefaultUser defaultUser;
-
-    //private Plan plan;
+    @ManyToOne(fetch= FetchType.EAGER)
+    @JoinColumn(name="planID")
+    private Plan plan;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="statusID")

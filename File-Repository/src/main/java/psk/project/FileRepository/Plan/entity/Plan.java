@@ -2,6 +2,7 @@ package psk.project.FileRepository.Plan.entity;
 
 import lombok.Data;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
+import psk.project.FileRepository.Payment.entity.Payment;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,5 +26,8 @@ public class Plan {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "plan")
     private List<DefaultUser> users;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "plan")
+    private List<Payment> payments;
 
 }
