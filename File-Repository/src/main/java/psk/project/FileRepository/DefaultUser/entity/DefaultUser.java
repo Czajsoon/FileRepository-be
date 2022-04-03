@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.GenericGenerators;
 import psk.project.FileRepository.File.entity.File;
+import psk.project.FileRepository.Payment.entity.Payment;
 import psk.project.FileRepository.Plan.entity.Plan;
 import psk.project.FileRepository.SharedFile.entity.SharedFile;
 
@@ -45,6 +46,12 @@ public class DefaultUser {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
     private List<File> files;
+
+    @OneToMany(fetch= FetchType.LAZY,mappedBy = "defaultUser")
+    private List<Payment> payments;
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "defaultUser")
+    private List<SharedFile> sharedFiles;
 
 
 }

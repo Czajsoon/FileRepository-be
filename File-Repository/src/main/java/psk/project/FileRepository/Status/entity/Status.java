@@ -1,14 +1,18 @@
 package psk.project.FileRepository.Status.entity;
 
-import lombok.Data;
+import lombok.*;
 import psk.project.FileRepository.Payment.entity.Payment;
 
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Entity
 public class Status {
 
     @Id
