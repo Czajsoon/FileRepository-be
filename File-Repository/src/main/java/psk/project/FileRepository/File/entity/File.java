@@ -8,6 +8,7 @@ import psk.project.FileRepository.SharedFile.entity.SharedFile;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -15,8 +16,8 @@ public class File {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "ID", updatable = false, nullable = false)
-    private Long fileID;
+    @Column(name = "ID", updatable = false, nullable = false, unique = true)
+    private UUID fileID;
 
     @Column
     private String path;
