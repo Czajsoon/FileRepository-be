@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
 
 @Repository
-public interface DefaultUserRepository extends JpaRepository<DefaultUser,Long> {
+public interface DefaultUserRepository extends JpaRepository<DefaultUser,String> {
 }

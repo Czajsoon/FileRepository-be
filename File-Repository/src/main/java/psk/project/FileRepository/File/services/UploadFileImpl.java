@@ -15,10 +15,6 @@ public class UploadFileImpl implements UploadFile {
 
     @Override
     public void save(String user, MultipartFile file) throws IOException {
-        saveFile(file);
-    }
-
-    private void saveFile(MultipartFile file) throws IOException {
         Files.copy(
                 file.getInputStream(),
                 Path.of(path + file.getOriginalFilename()

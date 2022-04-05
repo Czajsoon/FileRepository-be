@@ -6,4 +6,5 @@ import psk.project.FileRepository.File.entity.File;
 
 @Repository
 public interface FileRepository extends JpaRepository<File,Long> {
+
 }
