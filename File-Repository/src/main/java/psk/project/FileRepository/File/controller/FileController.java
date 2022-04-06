@@ -1,5 +1,6 @@
 package psk.project.FileRepository.File.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.repository.query.Param;
@@ -15,22 +16,19 @@ import psk.project.FileRepository.File.services.UploadFileService;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("file/")
+@RequestMapping("file")
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:filePath.properties")
+@AllArgsConstructor
 @Log4j2
 public class FileController {
     private final UploadFileService uploadFileService;
-
-    public FileController(UploadFileService uploadFileService) {
-        this.uploadFileService = uploadFileService;
-    }
 
     @GetMapping
     public ResponseEntity<?> getFile(){
         return ResponseEntity.ok().body("Gites! pliki znajdują sie w : ");
     }
 
-    @PostMapping(value = {"{user}/{path}" ,"{user}"})
+    @PostMapping(value = {"/{user}/{path}" ,"/{user}"})
     public ResponseEntity<?> postFile(
             @PathVariable(name = "user") String user,
             @RequestParam(value = "file") MultipartFile file,

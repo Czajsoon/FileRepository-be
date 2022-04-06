@@ -1,5 +1,6 @@
 package psk.project.FileRepository.DefaultUser.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +13,9 @@ import javax.annotation.PostConstruct;
 
 @Controller
 @RequestMapping("/users")
+@AllArgsConstructor
 public class DefaultUserController {
     private final DefaultUserRepository userRepository;
-
-    public DefaultUserController(DefaultUserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @GetMapping
     public ResponseEntity<?> getUsers(){

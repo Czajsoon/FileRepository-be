@@ -1,5 +1,6 @@
 package psk.project.FileRepository.File.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,18 +20,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class UploadFileImpl implements UploadFile {
 
     private final FileRepository fileRepository;
-    private final DefaultUserRepository userRpository;
+    private final DefaultUserRepository userRepository;
 
     @Value("${file.path.source.location}")
     private String path;
-
-    public UploadFileImpl(FileRepository fileRepository, DefaultUserRepository userRpository) {
-        this.fileRepository = fileRepository;
-        this.userRpository = userRpository;
-    }
 
     @Override
     public void save(String user, MultipartFile file) throws IOException {
@@ -44,7 +41,7 @@ public class UploadFileImpl implements UploadFile {
         try {
             //TODO implement size of file to repo and define root folder for user
             save(fileDto.getOwnerId(), fileDto.getFile());
-            Optional<DefaultUser> user = userRpository.findById(UUID.fromString(fileDto.getOwnerId()));
+            Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDto.getOwnerId()));
             if(user.isPresent()){
                 fileRepository.save(File.of(fileDto,user.get()));
             }

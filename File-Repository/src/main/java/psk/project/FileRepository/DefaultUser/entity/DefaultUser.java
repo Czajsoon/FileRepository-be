@@ -1,6 +1,8 @@
 package psk.project.FileRepository.DefaultUser.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.GenericGenerators;
 import psk.project.FileRepository.DefaultUser.models.DefaultUserDTO;
@@ -13,7 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class DefaultUser {
 
     @Id
