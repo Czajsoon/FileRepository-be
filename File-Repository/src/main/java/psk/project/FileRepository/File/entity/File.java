@@ -1,6 +1,8 @@
 package psk.project.FileRepository.File.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
 import psk.project.FileRepository.File.models.FileDTO;
@@ -11,7 +13,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class File {
 
     @Id
@@ -26,7 +29,7 @@ public class File {
     private String description;
 
     @Column
-    private Double size;
+    private Long size;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "defaultUserID")

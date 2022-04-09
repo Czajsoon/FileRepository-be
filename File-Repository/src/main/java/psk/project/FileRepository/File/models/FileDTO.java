@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder
@@ -13,6 +15,10 @@ public class FileDTO {
     private String path;
     private String additionalPath;
     private String description;
-    private Double size;
-    private String ownerId;
+    private Long size;
+    private UUID ownerId;
+
+    public String getOwnerId() {
+        return ownerId.toString();
+    }
 }
