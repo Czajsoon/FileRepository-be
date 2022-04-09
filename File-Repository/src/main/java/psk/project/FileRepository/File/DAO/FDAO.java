@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface FDAO<T,S,U> {
     Optional<T> get(String id);
     List<S> getAll();
-    String save(U dto) throws FileNotSavedException, UserNotFoundException;
+    S save(U dto) throws FileNotSavedException, UserNotFoundException;
 }

@@ -10,6 +10,7 @@ import psk.project.FileRepository.DefaultUser.exceptions.UserNotFoundException;
 import psk.project.FileRepository.File.DAO.FileDAO;
 import psk.project.FileRepository.File.exceptions.FileNotSavedException;
 import psk.project.FileRepository.File.models.FileDTO;
+import psk.project.FileRepository.File.models.FileResponse;
 
 @Service
 @AllArgsConstructor
@@ -20,13 +21,13 @@ class UploadFileService {
 
     @SneakyThrows
     @Transactional(rollbackFor = {FileNotSavedException.class, UserNotFoundException.class})
-    public String uploadFile(FileDTO fileDto) {
+    public FileResponse uploadFile(FileDTO fileDto) {
         if (fileDto.getAdditionalPath() == null)
             fileDto.setAdditionalPath("");
 
-        String savedFileId = fileDAO.save(fileDto);
-        log.info(String.format("File saved with id:'%s'", savedFileId));
-        return "File uploaded successfully!";
+        FileResponse fileResponse = fileDAO.save(fileDto);
+        log.info(String.format("File saved with id:'%s'", fileResponse.getFileId()));
+        return fileResponse;
     }
 
 

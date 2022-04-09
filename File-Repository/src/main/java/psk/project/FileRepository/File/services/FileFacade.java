@@ -16,7 +16,7 @@ public class FileFacade {
     private final ResponseFileService responseFileService;
 
     @SneakyThrows
-    public String saveFile(FileDTO fileDTO) {
+    public FileResponse saveFile(FileDTO fileDTO) {
         return uploadFileService.uploadFile(fileDTO);
     }
 

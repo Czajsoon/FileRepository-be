@@ -13,7 +13,9 @@ public class FileResponse {
     private String fileId;
     private Long size;
     private String path;
+    private String fileName;
     private String description;
+    private String comment;
 //    private List<String>
 
     public static FileResponse of(File file) {
@@ -32,6 +34,8 @@ public class FileResponse {
                         .getDefaultUserID()
                         .toString())
                 .path(path)
+                .fileName(file.getFileName())
+                .comment(file.getComment())
                 .fileId(file.getFileID().toString())
                 .build();
     }

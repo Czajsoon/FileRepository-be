@@ -34,7 +34,7 @@ abstract class AbstractFileDAO {
         this.userRepository = userRepository;
     }
 
-    protected List<FileResponse> getAllFiles(){
+    protected List<FileResponse> getAllFiles() {
         return fileRepository.findAll().stream()
                 .map(FileResponse::of)
                 .toList();
@@ -43,27 +43,46 @@ abstract class AbstractFileDAO {
     public File saveInRepository(FileDTO fileDTO) throws UserNotFoundException {
         Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
-        if(user.isPresent()){
-            return fileRepository.save(File.of(fileDTO,user.get()));
-        }
-        else throw new UserNotFoundException(fileDTO.getOwnerId());
+        if (user.isPresent()) {
+            return fileRepository.save(File.of(fileDTO, user.get()));
+        } else throw new UserNotFoundException(fileDTO.getOwnerId());
     }
 
-    private String setFilePath(String path){
-        if(path.length() == 0)
+    private String setFilePath(String path) {
+        if (path.length() == 0)
             return "Folder główny";
         else
             return path;
     }
 
-    protected void saveFileOnDisc(FileDTO fileDTO) throws FileNotSavedException {
+    protected void checkFileExistsOnDirectoryAndGenerateFileNameAndComment(FileDTO fileDTO){
+        boolean fileExistsOnDirectory = fileExistsOnDirectory(fileDTO.getAdditionalPath()
+                , fileDTO.getOwnerId()
+                , fileDTO.getFile().getOriginalFilename());
+        fileDTO.setComment("Brak komentarza...");
+        if(fileExistsOnDirectory){
+            fileDTO.setAdditionalFileName(UUID.randomUUID());
+            String newFileName = fileDTO.getAdditionalFileName() + fileDTO.getFile().getOriginalFilename();
+            fileDTO.setComment(String.format("Zmieniono nazwę pliku:'%s' na:'%s' ponieważ taki juz istnieje w tym folderze!"
+                    ,fileDTO.getFile().getOriginalFilename()
+                    ,newFileName));
+            fileDTO.setFileName(newFileName);
+        }
+    }
+
+    protected Path saveFileOnDisc(FileDTO fileDTO) throws FileNotSavedException {
         Path path = createDirectoryPath(fileDTO.getAdditionalPath(), fileDTO.getOwnerId());
         createDirectoriesIfNotExists(path);
-        saveFile(path,fileDTO.getFile());
+        return saveFile(path, fileDTO.getFile(), fileDTO.getAdditionalFileName());
+    }
+
+    protected boolean fileExistsOnDirectory(String path, String user, String fileName) {
+        Path filePath = Path.of(createDirectoryPath(path, user) + "/" + fileName);
+        return Files.exists(filePath);
     }
 
     private void createDirectoriesIfNotExists(Path path) throws FileNotSavedException {
-        if(userDirectoryNotExistsInPath(path))
+        if (userDirectoryNotExistsInPath(path))
             createUserDirectory(path);
     }
 
@@ -84,20 +103,29 @@ abstract class AbstractFileDAO {
     private void createUserDirectory(Path path) throws FileNotSavedException {
         try {
             Files.createDirectories(path);
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             throw new FileNotSavedException();
         }
     }
 
-    private void saveFile(Path path, MultipartFile file) throws FileNotSavedException {
+    private Path saveFile(Path path, MultipartFile file, UUID fileUUID) throws FileNotSavedException {
         try {
-            Files.copy(
-                    file.getInputStream(),
-                    Path.of(path + "/" + file.getOriginalFilename()
-                    ), StandardCopyOption.REPLACE_EXISTING);
-        }
-        catch (IOException e){
+            Path finalPath;
+            if (fileUUID != null) {
+                finalPath = Path.of(path + "/" + fileUUID + file.getOriginalFilename());
+                Files.copy(
+                        file.getInputStream(),
+                        finalPath,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                finalPath = Path.of(path + "/" + file.getOriginalFilename());
+                Files.copy(
+                        file.getInputStream(),
+                        finalPath,
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+            return finalPath;
+        } catch (IOException e) {
             throw new FileNotSavedException();
         }
     }

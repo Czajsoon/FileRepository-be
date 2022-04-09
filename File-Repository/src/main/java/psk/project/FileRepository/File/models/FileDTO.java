@@ -17,6 +17,10 @@ public class FileDTO {
     private String description;
     private Long size;
     private UUID ownerId;
+    private Boolean fileExists;
+    private UUID additionalFileName;
+    private String comment;
+    private String fileName;
 
     public String getOwnerId() {
         return ownerId.toString();

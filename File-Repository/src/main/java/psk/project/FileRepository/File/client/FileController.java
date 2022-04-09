@@ -26,7 +26,7 @@ public class FileController {
     }
 
     @PostMapping("file/{user}")
-    public String postFile(
+    public FileResponse postFile(
             @PathVariable String user,
             @RequestParam MultipartFile file,
             @RequestParam(required = false) String description,
@@ -34,6 +34,7 @@ public class FileController {
     ) {
         return fileFacade.saveFile(FileDTO.builder()
                 .file(file)
+                .fileName(file.getOriginalFilename())
                 .ownerId(UUID.fromString(user))
                 .description(description)
                 .size(file.getSize())

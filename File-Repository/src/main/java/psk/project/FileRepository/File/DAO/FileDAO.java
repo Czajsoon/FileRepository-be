@@ -8,6 +8,7 @@ import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.File.models.FileResponse;
 import psk.project.FileRepository.File.repository.FileRepository;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class FileDAO extends AbstractFileDAO implements FDAO<File,FileResponse,FileDTO> {
 
     public FileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
-        super(fileRepository,userRepository);
+        super(fileRepository, userRepository);
     }
 
     @Override
@@ -31,13 +32,12 @@ public class FileDAO extends AbstractFileDAO implements FDAO<File,FileResponse,F
 
     @Override
     @SneakyThrows
-    public String save(FileDTO fileDTO) {
-        saveFileOnDisc(fileDTO);
+    public FileResponse save(FileDTO fileDTO) {
+        checkFileExistsOnDirectoryAndGenerateFileNameAndComment(fileDTO);
+        Path path = saveFileOnDisc(fileDTO);
+        fileDTO.setPath(path.toString());
         File file = saveInRepository(fileDTO);
-        return file.getFileID().toString();
+        return FileResponse.of(file);
     }
-
-    //TODO sprawdzenie czy plik juz istnieje o takiej nazwie i rozszerzeniu i wyrzucenie wujątku
-
 
 }
