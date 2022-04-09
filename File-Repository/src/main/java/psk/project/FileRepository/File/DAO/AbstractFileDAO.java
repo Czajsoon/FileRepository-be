@@ -9,12 +9,14 @@ import psk.project.FileRepository.DefaultUser.repository.DefaultUserRepository;
 import psk.project.FileRepository.File.entity.File;
 import psk.project.FileRepository.File.exceptions.FileNotSavedException;
 import psk.project.FileRepository.File.models.FileDTO;
+import psk.project.FileRepository.File.models.FileResponse;
 import psk.project.FileRepository.File.repository.FileRepository;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,22 +27,36 @@ abstract class AbstractFileDAO {
     protected final DefaultUserRepository userRepository;
 
     @Value("${file.path.source.location}")
-    private String rootPath;
+    public String rootPath;
 
     protected AbstractFileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         this.fileRepository = fileRepository;
         this.userRepository = userRepository;
     }
 
+    protected List<FileResponse> getAllFiles(){
+        return fileRepository.findAll().stream()
+                .map(FileResponse::of)
+                .toList();
+    }
+
     public File saveInRepository(FileDTO fileDTO) throws UserNotFoundException {
         Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
+        fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
         if(user.isPresent()){
             return fileRepository.save(File.of(fileDTO,user.get()));
         }
         else throw new UserNotFoundException(fileDTO.getOwnerId());
     }
 
-    public void saveFileOnDisc(FileDTO fileDTO) throws FileNotSavedException {
+    private String setFilePath(String path){
+        if(path.length() == 0)
+            return "Folder główny";
+        else
+            return path;
+    }
+
+    protected void saveFileOnDisc(FileDTO fileDTO) throws FileNotSavedException {
         Path path = createDirectoryPath(fileDTO.getAdditionalPath(), fileDTO.getOwnerId());
         createDirectoriesIfNotExists(path);
         saveFile(path,fileDTO.getFile());

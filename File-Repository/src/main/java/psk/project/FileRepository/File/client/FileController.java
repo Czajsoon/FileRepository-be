@@ -4,22 +4,28 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.File.models.FileDTO;
+import psk.project.FileRepository.File.models.FileResponse;
 import psk.project.FileRepository.File.services.FileFacade;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("file")
 @AllArgsConstructor
 public class FileController {
     private final FileFacade fileFacade;
 
-    @GetMapping
-    public String getFile() {
-        return "Gites! pliki znajdują sie w : ";
+    @GetMapping("file")
+    public FileResponse getFile(@RequestParam String fileId) {
+        return fileFacade.getFileInfoById(fileId);
     }
 
-    @PostMapping("/{user}")
+    @GetMapping("files")
+    public List<FileResponse> getAllFiles(){
+        return fileFacade.getAllFiles();
+    }
+
+    @PostMapping("file/{user}")
     public String postFile(
             @PathVariable String user,
             @RequestParam MultipartFile file,

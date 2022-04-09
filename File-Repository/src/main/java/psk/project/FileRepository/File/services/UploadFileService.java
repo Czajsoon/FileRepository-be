@@ -14,7 +14,7 @@ import psk.project.FileRepository.File.models.FileDTO;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UploadFileService {
+class UploadFileService {
 
     private final FileDAO fileDAO;
 
@@ -28,4 +28,6 @@ public class UploadFileService {
         log.info(String.format("File saved with id:'%s'", savedFileId));
         return "File uploaded successfully!";
     }
+
+
 }

@@ -38,6 +38,7 @@ public class File {
     public static File of(FileDTO fileDTO,DefaultUser user){
         File file = new File();
         file.setDefaultUser(user);
+        file.setSize(fileDTO.getSize());
         file.setPath(fileDTO.getPath());
         file.setDescription(fileDTO.getDescription());
         return file;

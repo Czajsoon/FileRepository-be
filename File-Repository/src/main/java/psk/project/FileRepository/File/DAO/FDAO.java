@@ -2,11 +2,12 @@ package psk.project.FileRepository.File.DAO;
 
 import psk.project.FileRepository.DefaultUser.exceptions.UserNotFoundException;
 import psk.project.FileRepository.File.exceptions.FileNotSavedException;
-import psk.project.FileRepository.File.models.FileDTO;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface FDAO<T> {
+public interface FDAO<T,S,U> {
     Optional<T> get(String id);
-    String save(FileDTO dto) throws FileNotSavedException, UserNotFoundException;
+    List<S> getAll();
+    String save(U dto) throws FileNotSavedException, UserNotFoundException;
 }
