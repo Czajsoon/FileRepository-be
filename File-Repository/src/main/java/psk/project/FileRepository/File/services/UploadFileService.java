@@ -1,6 +1,7 @@
 package psk.project.FileRepository.File.services;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,14 @@ public class UploadFileService {
 
     private final FileDAO fileDAO;
 
+    @SneakyThrows
     @Transactional(rollbackFor = {FileNotSavedException.class, UserNotFoundException.class})
     public String uploadFile(FileDTO fileDto) {
         if (fileDto.getAdditionalPath() == null)
             fileDto.setAdditionalPath("");
-        try {
-            fileDAO.save(fileDto);
-        } catch (FileNotSavedException | UserNotFoundException e) {
-            log.warn(String.format("Saving file failed with message:'%s'", e.getMessage()));
-        }
-        return "File uploaded successfully!!";
+
+        String savedFileId = fileDAO.save(fileDto);
+        log.info(String.format("File saved with id:'%s'", savedFileId));
+        return "File uploaded successfully!";
     }
 }

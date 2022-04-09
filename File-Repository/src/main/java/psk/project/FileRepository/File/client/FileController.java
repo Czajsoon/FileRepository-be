@@ -25,7 +25,7 @@ public class FileController {
             @RequestParam MultipartFile file,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String path
-    ){
+    ) {
         return fileFacade.saveFile(FileDTO.builder()
                 .file(file)
                 .ownerId(UUID.fromString(user))

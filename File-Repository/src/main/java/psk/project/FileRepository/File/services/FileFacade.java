@@ -1,6 +1,7 @@
 package psk.project.FileRepository.File.services;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import psk.project.FileRepository.File.models.FileDTO;
 
@@ -10,7 +11,8 @@ public class FileFacade {
 
     private final UploadFileService uploadFileService;
 
-    public String saveFile(FileDTO fileDTO){
+    @SneakyThrows
+    public String saveFile(FileDTO fileDTO) {
         return uploadFileService.uploadFile(fileDTO);
     }
 }
