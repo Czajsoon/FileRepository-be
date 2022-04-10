@@ -25,6 +25,23 @@ public class FileController {
         return fileFacade.getAllFiles();
     }
 
+    @PostMapping("files/{user}")
+    public List<FileResponse> postFiles(@PathVariable String user,
+                          @RequestParam List<MultipartFile> files,
+                          @RequestParam(required = false) String description,
+                          @RequestParam(required = false) String path){
+        return files.stream()
+                .map(mFile -> fileFacade.saveFile(FileDTO.builder()
+                .file(mFile)
+                .fileName(mFile.getOriginalFilename())
+                .ownerId(UUID.fromString(user))
+                .description(description)
+                .size(mFile.getSize())
+                .additionalPath(path)
+                .build()))
+                .toList();
+    }
+
     @PostMapping("file/{user}")
     public FileResponse postFile(
             @PathVariable String user,
