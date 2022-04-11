@@ -10,6 +10,7 @@ import psk.project.FileRepository.File.repository.FileRepository;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,5 +40,11 @@ public class FileDAO extends AbstractFileDAO implements FDAO<File,FileResponse,F
         File file = saveInRepository(fileDTO);
         return FileResponse.of(file);
     }
+
+    @Override
+    public String getTotalPathFile(String id) throws NoSuchElementException{
+        return getTotalPathFileById(id);
+    }
+
 
 }
