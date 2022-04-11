@@ -22,7 +22,7 @@ public class ResponseFileService {
         Optional<File> file = fileDAO.get(id);
         if (file.isPresent())
             return FileResponse.of(file.get());
-        throw new FileNotFoundException();
+        throw new FileNotFoundException(id);
     }
 
     public List<FileResponse> getAllFiles(){

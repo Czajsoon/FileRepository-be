@@ -39,6 +39,10 @@ public class File {
     @JsonIgnore
     private String comment;
 
+    @Column
+    @JsonIgnore
+    private String totalPath;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "defaultUserID")
     private DefaultUser defaultUser;
@@ -54,6 +58,7 @@ public class File {
         file.setDescription(fileDTO.getDescription());
         file.setComment(fileDTO.getComment());
         file.setFileName(fileDTO.getFileName());
+        file.setTotalPath(fileDTO.getTotalPath());
         return file;
     }
 }

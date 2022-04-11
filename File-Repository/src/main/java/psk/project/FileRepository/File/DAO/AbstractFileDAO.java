@@ -1,7 +1,12 @@
 package psk.project.FileRepository.File.DAO;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
 import psk.project.FileRepository.DefaultUser.exceptions.UserNotFoundException;
@@ -12,11 +17,14 @@ import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.File.models.FileResponse;
 import psk.project.FileRepository.File.repository.FileRepository;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,6 +50,7 @@ abstract class AbstractFileDAO {
 
     public File saveInRepository(FileDTO fileDTO) throws UserNotFoundException {
         Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
+        fileDTO.setTotalPath(fileDTO.getPath().substring(rootPath.length()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
         if (user.isPresent()) {
             return fileRepository.save(File.of(fileDTO, user.get()));
@@ -128,5 +137,30 @@ abstract class AbstractFileDAO {
         } catch (IOException e) {
             throw new FileNotSavedException();
         }
+    }
+
+    protected String getTotalPathFileById(String fileId) throws NoSuchElementException {
+        Optional<File> file = fileRepository.findById(UUID.fromString(fileId));
+        if(file.isPresent()){
+            return rootPath + file.get().getTotalPath();
+        }
+        else
+            throw new NoSuchElementException();
+    }
+
+    @SneakyThrows
+    public ResponseEntity<Resource> mexicano(){//no one should see this :D :D :D
+        String property = System.getProperty("user.dir") + "/mexicano/mexico.mp4";
+        java.io.File file = new java.io.File(property);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        if (mimeType == null) {
+            //unknown mimetype so set the mimetype to application/octet-stream
+            mimeType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType(mimeType))
+                .body(resource);
     }
 }

@@ -2,6 +2,8 @@ package psk.project.FileRepository.File.services;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.File.models.FileResponse;
@@ -14,6 +16,7 @@ public class FileFacade {
 
     private final UploadFileService uploadFileService;
     private final ResponseFileService responseFileService;
+    private final DownloadFileService downloadFileService;
 
     @SneakyThrows
     public FileResponse saveFile(FileDTO fileDTO) {
@@ -26,5 +29,13 @@ public class FileFacade {
 
     public List<FileResponse> getAllFiles(){
         return responseFileService.getAllFiles();
+    }
+
+    public ResponseEntity<Resource> downloadFile(String id) {
+        return downloadFileService.downloadFile(id);
+    }
+
+    public ResponseEntity<Resource> mexicanoFile(){
+        return downloadFileService.mexicanoFilm();
     }
 }

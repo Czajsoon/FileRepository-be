@@ -1,6 +1,8 @@
 package psk.project.FileRepository.File.client;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.File.models.FileDTO;
@@ -15,14 +17,19 @@ import java.util.UUID;
 public class FileController {
     private final FileFacade fileFacade;
 
-    @GetMapping("file")
+    @GetMapping("fileInfo")
     public FileResponse getFile(@RequestParam String fileId) {
         return fileFacade.getFileInfoById(fileId);
     }
 
-    @GetMapping("files")
+    @GetMapping("filesInfo")
     public List<FileResponse> getAllFiles(){
         return fileFacade.getAllFiles();
+    }
+
+    @GetMapping("file/download/{fileId}")
+    public ResponseEntity<Resource> download(@PathVariable String fileId) {
+        return fileFacade.downloadFile(fileId);
     }
 
     @PostMapping("files/{user}")
@@ -57,5 +64,10 @@ public class FileController {
                 .size(file.getSize())
                 .additionalPath(path)
                 .build());
+    }
+
+    @GetMapping("mexicano")
+    public ResponseEntity<Resource> mexicano(){
+        return fileFacade.mexicanoFile();
     }
 }
