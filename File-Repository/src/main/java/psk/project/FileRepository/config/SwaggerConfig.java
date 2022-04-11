@@ -1,4 +1,4 @@
-package psk.project.FileRepository;
+package psk.project.FileRepository.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
