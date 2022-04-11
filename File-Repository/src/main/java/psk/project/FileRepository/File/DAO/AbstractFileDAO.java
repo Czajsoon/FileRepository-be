@@ -1,8 +1,6 @@
 package psk.project.FileRepository.File.DAO;
 
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -28,18 +26,17 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
-@PropertySource("classpath:filePath.properties")
 abstract class AbstractFileDAO {
 
     protected final FileRepository fileRepository;
     protected final DefaultUserRepository userRepository;
 
-    @Value("${file.path.source.location}")
-    public String rootPath;
+    public final String rootPath;
 
     protected AbstractFileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         this.fileRepository = fileRepository;
         this.userRepository = userRepository;
+        this.rootPath = System.getProperty("user.dir") + "/server/";
     }
 
     protected List<FileResponse> getAllFiles() {
@@ -159,6 +156,7 @@ abstract class AbstractFileDAO {
             mimeType = "application/octet-stream";
         }
         return ResponseEntity.ok()
+                .header("Content-Disposition", "target=\"_blank\"")
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType(mimeType))
                 .body(resource);
