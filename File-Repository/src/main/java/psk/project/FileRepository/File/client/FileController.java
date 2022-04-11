@@ -9,6 +9,7 @@ import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.File.models.FileResponse;
 import psk.project.FileRepository.File.services.FileFacade;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,9 +28,14 @@ public class FileController {
         return fileFacade.getAllFiles();
     }
 
-    @GetMapping("file/download/{fileId}")
-    public ResponseEntity<Resource> download(@PathVariable String fileId) {
-        return fileFacade.downloadFile(fileId);
+    @GetMapping("file/download/{file}")
+    public ResponseEntity<Resource> download(@PathVariable String file) {
+        return fileFacade.downloadFile(file);
+    }
+
+    @GetMapping("files/download/{files}")
+    public void download(HttpServletResponse response, @PathVariable List<String> files) {
+        fileFacade.downloadFiles(response, files);
     }
 
     @PostMapping("files/{user}")

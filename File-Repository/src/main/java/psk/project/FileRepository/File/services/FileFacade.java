@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.File.models.FileResponse;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -33,6 +34,10 @@ public class FileFacade {
 
     public ResponseEntity<Resource> downloadFile(String id) {
         return downloadFileService.downloadFile(id);
+    }
+
+    public void downloadFiles(HttpServletResponse response, List<String> ids) {
+        downloadFileService.downloadFiles(ids,response);
     }
 
     public ResponseEntity<Resource> mexicanoFile(){

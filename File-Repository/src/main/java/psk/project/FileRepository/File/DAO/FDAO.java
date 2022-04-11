@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface FDAO<T,S,U> {
     Optional<T> get(String id);
+    List<T> getAll(List<String> idList);
     List<S> getAll();
     S save(U dto) throws FileNotSavedException, UserNotFoundException;
     String getTotalPathFile(String id) throws NoSuchElementException;

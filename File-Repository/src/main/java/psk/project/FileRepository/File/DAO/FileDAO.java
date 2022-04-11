@@ -27,6 +27,11 @@ public class FileDAO extends AbstractFileDAO implements FDAO<File,FileResponse,F
     }
 
     @Override
+    public List<File> getAll(List<String> idList) {
+        return fileRepository.findAllById(idList.stream().map(UUID::fromString).toList());
+    }
+
+    @Override
     public List<FileResponse> getAll() {
         return getAllFiles();
     }
