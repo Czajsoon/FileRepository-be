@@ -1,4 +1,4 @@
-package psk.project.FileRepository.DefaultUser.models;
+package psk.project.FileRepository.DefaultUser.entity.models;
 
 import lombok.Builder;
 import lombok.Getter;

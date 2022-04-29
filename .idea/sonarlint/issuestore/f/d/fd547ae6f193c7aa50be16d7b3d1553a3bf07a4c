@@ -1,0 +1,8 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‰ŠÈõøÿÿÿÿ
+A
+java:S1075V"&Remove this hard-coded path-delimiter.(ô¿¢Ëüÿÿÿÿ
+A
+java:S1075y"&Remove this hard-coded path-delimiter.(ı÷°Âûÿÿÿÿ
+<
+java:S1075"&Remove this hard-coded path-delimiter.(ºù·

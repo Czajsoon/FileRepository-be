@@ -1,11 +1,8 @@
 package psk.project.FileRepository.DefaultUser.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.GenericGenerators;
-import psk.project.FileRepository.DefaultUser.models.DefaultUserDTO;
+import psk.project.FileRepository.DefaultUser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.File.entity.File;
 import psk.project.FileRepository.Payment.entity.Payment;
 import psk.project.FileRepository.Plan.entity.Plan;
