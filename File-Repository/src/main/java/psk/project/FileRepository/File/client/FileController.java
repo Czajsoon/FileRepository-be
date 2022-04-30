@@ -33,12 +33,12 @@ public class FileController {
         return fileFacade.downloadFile(file);
     }
 
-    @GetMapping("files/download/{files}")
+    @GetMapping(value = "files/download/{files}")
     public void download(HttpServletResponse response, @PathVariable List<String> files) {
         fileFacade.downloadFiles(response, files);
     }
 
-    @PostMapping("files/{user}")
+    @PostMapping(path = "files/{user}")
     public List<FileResponse> postFiles(@PathVariable String user,
                           @RequestParam List<MultipartFile> files,
                           @RequestParam(required = false) String description,
