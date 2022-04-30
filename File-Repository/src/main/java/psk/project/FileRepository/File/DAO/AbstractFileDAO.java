@@ -45,7 +45,7 @@ abstract class AbstractFileDAO {
                 .toList();
     }
 
-    public File saveInRepository(FileDTO fileDTO) throws UserNotFoundException {
+    public File saveInRepository(FileDTO fileDTO) {
         Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
         fileDTO.setTotalPath(fileDTO.getPath().substring(rootPath.length()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
@@ -76,7 +76,7 @@ abstract class AbstractFileDAO {
         }
     }
 
-    protected Path saveFileOnDisc(FileDTO fileDTO) throws FileNotSavedException {
+    protected Path saveFileOnDisc(FileDTO fileDTO) {
         Path path = createDirectoryPath(fileDTO.getAdditionalPath(), fileDTO.getOwnerId());
         createDirectoriesIfNotExists(path);
         return saveFile(path, fileDTO.getFile(), fileDTO.getAdditionalFileName());
@@ -87,7 +87,7 @@ abstract class AbstractFileDAO {
         return Files.exists(filePath);
     }
 
-    private void createDirectoriesIfNotExists(Path path) throws FileNotSavedException {
+    private void createDirectoriesIfNotExists(Path path) {
         if (userDirectoryNotExistsInPath(path))
             createUserDirectory(path);
     }
@@ -106,7 +106,7 @@ abstract class AbstractFileDAO {
         return !Files.exists(path);
     }
 
-    private void createUserDirectory(Path path) throws FileNotSavedException {
+    private void createUserDirectory(Path path) {
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
@@ -114,7 +114,7 @@ abstract class AbstractFileDAO {
         }
     }
 
-    private Path saveFile(Path path, MultipartFile file, UUID fileUUID) throws FileNotSavedException {
+    private Path saveFile(Path path, MultipartFile file, UUID fileUUID) {
         try {
             Path finalPath;
             if (fileUUID != null) {
@@ -136,7 +136,7 @@ abstract class AbstractFileDAO {
         }
     }
 
-    protected String getTotalPathFileById(String fileId) throws NoSuchElementException {
+    protected String getTotalPathFileById(String fileId) {
         Optional<File> file = fileRepository.findById(UUID.fromString(fileId));
         if(file.isPresent()){
             return rootPath + file.get().getTotalPath();
