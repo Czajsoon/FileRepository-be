@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class FileDAO extends AbstractFileDAO implements FDAO<File,FileResponse,FileDTO> {
+public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File,FileResponse,FileDTO> {
 
     public FileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         super(fileRepository, userRepository);
@@ -47,7 +47,7 @@ public class FileDAO extends AbstractFileDAO implements FDAO<File,FileResponse,F
     }
 
     @Override
-    public String getTotalPathFile(String id) throws NoSuchElementException{
+    public String getTotalPathFile(String id) {
         return getTotalPathFileById(id);
     }
 
