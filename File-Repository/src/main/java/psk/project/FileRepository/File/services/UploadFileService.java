@@ -19,7 +19,6 @@ class UploadFileService {
 
     private final FileDAO fileDAO;
 
-    @SneakyThrows
     @Transactional(rollbackFor = {FileNotSavedException.class, UserNotFoundException.class})
     public FileResponse uploadFile(FileDTO fileDto) {
         if (fileDto.getAdditionalPath() == null)

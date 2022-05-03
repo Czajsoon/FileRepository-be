@@ -24,7 +24,7 @@ import java.util.zip.ZipOutputStream;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class DownloadFileService {
+class DownloadFileService {
 
     private final FileDAO fileDAO;
 
