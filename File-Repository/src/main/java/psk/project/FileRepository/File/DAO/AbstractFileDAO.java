@@ -138,11 +138,7 @@ abstract class AbstractFileDAO {
 
     protected String getTotalPathFileById(String fileId) {
         Optional<File> file = fileRepository.findById(UUID.fromString(fileId));
-        if(file.isPresent()){
-            return rootPath + file.get().getTotalPath();
-        }
-        else
-            throw new NoSuchElementException();
+        return rootPath + file.orElseThrow(NoSuchElementException::new).getFileName();
     }
 
     @SneakyThrows

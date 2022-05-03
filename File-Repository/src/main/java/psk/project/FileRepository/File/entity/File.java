@@ -1,10 +1,9 @@
 package psk.project.FileRepository.File.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
 import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.SharedFile.entity.SharedFile;
@@ -27,10 +26,14 @@ public class File {
     private String path;
 
     @Column
+    @NotNull
     private String fileName;
 
     @Column
     private String description;
+
+    @Column
+    private String fileFormat;//TODO fileformat after addfile!!!
 
     @Column
     private Long size;
@@ -50,7 +53,7 @@ public class File {
     @OneToMany(fetch = FetchType.LAZY)
     private List<SharedFile> sharedFiles;
 
-    public static File of(FileDTO fileDTO,DefaultUser user){
+    public static File of(FileDTO fileDTO, DefaultUser user) {
         File file = new File();
         file.setDefaultUser(user);
         file.setSize(fileDTO.getSize());
