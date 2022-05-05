@@ -1,6 +1,5 @@
 package psk.project.FileRepository.File.DAO;
 
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import psk.project.FileRepository.DefaultUser.repository.DefaultUserRepository;
 import psk.project.FileRepository.File.entity.File;
@@ -10,12 +9,11 @@ import psk.project.FileRepository.File.repository.FileRepository;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File,FileResponse,FileDTO> {
+public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File, FileResponse, FileDTO> {
 
     public FileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         super(fileRepository, userRepository);
@@ -37,7 +35,6 @@ public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File,Fi
     }
 
     @Override
-    @SneakyThrows
     public FileResponse save(FileDTO fileDTO) {
         checkFileExistsOnDirectoryAndGenerateFileNameAndComment(fileDTO);
         Path path = saveFileOnDisc(fileDTO);
@@ -50,6 +47,5 @@ public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File,Fi
     public String getTotalPathFile(String id) {
         return getTotalPathFileById(id);
     }
-
 
 }
