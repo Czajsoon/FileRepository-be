@@ -29,7 +29,7 @@ public class DefaultUserController {
                 .name("Jakub")
                 .surname("Czajkowski")
                 .email("kubaczajkowski25@gmail.com")
-                .login("123")
+                .login("1234")
                 .password("123")
                 .build()));
     }

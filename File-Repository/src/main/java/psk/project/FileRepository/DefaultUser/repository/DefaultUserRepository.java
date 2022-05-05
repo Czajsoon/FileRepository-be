@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface DefaultUserRepository extends JpaRepository<DefaultUser, UUID> {
+    DefaultUser findDefaultUserByLogin(String login);
 }

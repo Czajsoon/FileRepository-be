@@ -35,7 +35,7 @@ public class DefaultUser {
     private String password;
 
     @Column
-    private String Email;
+    private String email;
 
 
     @ManyToOne(fetch=FetchType.EAGER)
