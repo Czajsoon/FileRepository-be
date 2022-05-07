@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
-import psk.project.FileRepository.DefaultUser.models.DefaultUserDTO;
+import psk.project.FileRepository.DefaultUser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.DefaultUser.repository.DefaultUserRepository;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +29,7 @@ public class DefaultUserController {
                 .name("Jakub")
                 .surname("Czajkowski")
                 .email("kubaczajkowski25@gmail.com")
-                .login("123")
+                .login("1234")
                 .password("123")
                 .build()));
     }
