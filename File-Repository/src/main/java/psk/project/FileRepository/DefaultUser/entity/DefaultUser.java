@@ -1,5 +1,6 @@
 package psk.project.FileRepository.DefaultUser.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,15 +44,19 @@ public class DefaultUser {
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "planID")
+    @JsonManagedReference
     private Plan plan;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
+    @JsonManagedReference
     private List<File> files;
 
     @OneToMany(fetch= FetchType.LAZY,mappedBy = "defaultUser")
+    @JsonManagedReference
     private List<Payment> payments;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "defaultUser")
+    @JsonManagedReference
     private List<SharedFile> sharedFiles;
 
     public static DefaultUser of(DefaultUserDTO dto){

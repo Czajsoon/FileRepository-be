@@ -1,6 +1,8 @@
 package psk.project.FileRepository.File.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,9 +50,11 @@ public class File {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "defaultUserID")
+    @JsonBackReference
     private DefaultUser defaultUser;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<SharedFile> sharedFiles;
 
     public static File of(FileDTO fileDTO, DefaultUser user) {
