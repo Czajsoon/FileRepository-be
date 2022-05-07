@@ -18,8 +18,8 @@ import java.util.UUID;
 public class FileController {
     private final FileFacade fileFacade;
 
-    @GetMapping("fileInfo")
-    public FileResponse getFile(@RequestParam String fileId) {
+    @GetMapping("fileInfo/{fileId}")
+    public FileResponse getFile(@PathVariable String fileId) {
         return fileFacade.getFileInfoById(fileId);
     }
 
