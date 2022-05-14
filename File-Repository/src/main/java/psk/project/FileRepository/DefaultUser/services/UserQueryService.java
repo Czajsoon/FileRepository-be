@@ -20,6 +20,7 @@ public class UserQueryService {
     public DefautUserLoginResponse findDefaultUserByLoginAndPassword(LoginDTO loginDTO) {
         DefaultUser defaultUser = defaultUserRepository
                 .findDefaultUserByLoginAndPassword(loginDTO.getLogin(), loginDTO.getPassword())
+                .stream().findFirst()
                 .orElseThrow(WrongAuthorizationDataException::new);
 
         return DefautUserLoginResponse.of(defaultUser);
