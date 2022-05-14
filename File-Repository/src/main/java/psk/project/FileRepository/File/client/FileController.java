@@ -19,7 +19,7 @@ import java.util.UUID;
 public class FileController {
     private final FileFacade fileFacade;
 
-    @GetMapping("{userId}/{fileId}")
+    @GetMapping("/{fileId}")
     public FileResponse getFile(@RequestParam String fileId) {
         return fileFacade.getFileInfoById(fileId);
     }
