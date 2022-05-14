@@ -1,6 +1,6 @@
 package psk.project.FileRepository.defaultUser;
 
-import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
+import psk.project.FileRepository.defaultUser.entity.DefaultUser;
 
 import java.util.UUID;
 
