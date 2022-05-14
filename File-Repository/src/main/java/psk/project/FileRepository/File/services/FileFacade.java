@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import psk.project.FileRepository.File.models.FileCommand;
 import psk.project.FileRepository.File.models.FileDTO;
 import psk.project.FileRepository.File.models.FileResponse;
 
@@ -17,10 +18,11 @@ public class FileFacade {
     private final UploadFileService uploadFileService;
     private final ResponseFileService responseFileService;
     private final DownloadFileService downloadFileService;
+    private final EditFileService editFileService;
 
 
-    public FileResponse saveFile(FileDTO fileDTO) {
-        return uploadFileService.uploadFile(fileDTO);
+    public void saveFile(FileDTO fileDTO) {
+        uploadFileService.uploadFile(fileDTO);
     }
 
     public FileResponse getFileInfoById(String id) {
@@ -37,6 +39,26 @@ public class FileFacade {
 
     public void downloadFiles(HttpServletResponse response, List<String> ids) {
         downloadFileService.downloadFiles(ids, response);
+    }
+
+    public void deleteFile(String fileId) {
+        editFileService.deleteFile(fileId);
+    }
+
+    public void deleteFiles(List<String> fileIds) {
+        fileIds.forEach(this::deleteFile);
+    }
+
+    public List<FileResponse> getAllFormDirectory(String directory,String userId){
+        return responseFileService.getFilesInfoByDirectory(directory,userId);
+    }
+
+    public List<FileResponse> getAllUserFiles(String userId){
+        return responseFileService.getUserFiles(userId);
+    }
+
+    public void edit(FileCommand command) {
+        editFileService.editFile(command);
     }
 
     public ResponseEntity<Resource> mexicanoFile() {

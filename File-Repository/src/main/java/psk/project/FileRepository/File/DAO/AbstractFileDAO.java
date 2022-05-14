@@ -49,29 +49,31 @@ abstract class AbstractFileDAO {
         Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
         fileDTO.setTotalPath(fileDTO.getPath().substring(rootPath.length()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
+        StringBuilder fileExtension = new StringBuilder(getFileExtention(fileDTO.getFile().getOriginalFilename()));
+        fileDTO.setFileFormat(fileExtension.deleteCharAt(0).toString().toUpperCase());
         if (user.isPresent()) {
             return fileRepository.save(File.of(fileDTO, user.get()));
         } else throw new UserNotFoundException(fileDTO.getOwnerId());
     }
 
-    private String setFilePath(String path) {
+    protected String setFilePath(String path) {
         if (path.length() == 0)
-            return "Folder główny";
+            return "/Folder główny";
         else
             return path;
     }
 
-    protected void checkFileExistsOnDirectoryAndGenerateFileNameAndComment(FileDTO fileDTO){
+    protected void checkFileExistsOnDirectoryAndGenerateFileNameAndComment(FileDTO fileDTO) {
         boolean fileExistsOnDirectory = fileExistsOnDirectory(fileDTO.getAdditionalPath()
                 , fileDTO.getOwnerId()
                 , fileDTO.getFile().getOriginalFilename());
         fileDTO.setComment("Brak komentarza...");
-        if(fileExistsOnDirectory){
+        if (fileExistsOnDirectory) {
             fileDTO.setAdditionalFileName(UUID.randomUUID());
             String newFileName = fileDTO.getAdditionalFileName() + fileDTO.getFile().getOriginalFilename();
             fileDTO.setComment(String.format("Zmieniono nazwę pliku:'%s' na:'%s' ponieważ taki juz istnieje w tym folderze!"
-                    ,fileDTO.getFile().getOriginalFilename()
-                    ,newFileName));
+                    , fileDTO.getFile().getOriginalFilename()
+                    , newFileName));
             fileDTO.setFileName(newFileName);
         }
     }
@@ -87,18 +89,18 @@ abstract class AbstractFileDAO {
         return Files.exists(filePath);
     }
 
-    private void createDirectoriesIfNotExists(Path path) {
+    protected void createDirectoriesIfNotExists(Path path) {
         if (userDirectoryNotExistsInPath(path))
             createUserDirectory(path);
     }
 
-    private Path createDirectoryPath(String path, String user) {
+    protected Path createDirectoryPath(String path, String user) {
         String userPath = rootPath;
-        if (path.length() != 0)
-            userPath += "/" + user + "/" + path;
-        else
-            userPath += "/" + user;
-
+        if(path.length() != 0){
+            if(path.equals("/Folder główny"))userPath += "/" + user + "/";
+            else userPath += "/" + user + "/" + path + "/";
+        }
+        else userPath += "/" + user + "/";
         return Path.of(userPath);
     }
 
@@ -112,6 +114,22 @@ abstract class AbstractFileDAO {
         } catch (IOException e) {
             throw new FileNotSavedException();
         }
+    }
+
+    protected String buildFileNameWithExtention(String filename,String newFilename){
+        return newFilename + getFileExtention(filename);
+    }
+
+    private String getFileExtention(String filename) {
+        StringBuilder extention = new StringBuilder();
+        boolean flag = false;
+        for (int i = filename.length() - 1; i > 0; i--) {
+            if (flag) break;
+            if(filename.charAt(i) == '.') flag = true;
+            extention.append(filename.charAt(i));
+        }
+        extention.reverse();
+        return extention.toString();
     }
 
     private Path saveFile(Path path, MultipartFile file, UUID fileUUID) {
@@ -137,12 +155,15 @@ abstract class AbstractFileDAO {
     }
 
     protected String getTotalPathFileById(String fileId) {
-        Optional<File> file = fileRepository.findById(UUID.fromString(fileId));
-        return rootPath + file.orElseThrow(NoSuchElementException::new).getFileName();
+        File file = fileRepository.findById(UUID.fromString(fileId))
+                .orElseThrow(NoSuchElementException::new);
+        if(file.getPath().equals("/Folder główny"))
+            return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getFileName();
+        return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getPath() + "/" + file.getFileName();
     }
 
     @SneakyThrows
-    public ResponseEntity<Resource> mexicano(){//no one should see this :D :D :D
+    public ResponseEntity<Resource> mexicano() {//no one should see this :D :D :D
         String property = System.getProperty("user.dir") + "/mexicano/mexico.mp4";
         java.io.File file = new java.io.File(property);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));

@@ -1,5 +1,6 @@
 package psk.project.FileRepository.File.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -48,6 +49,7 @@ public class File {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "defaultUserID")
+    @JsonBackReference
     private DefaultUser defaultUser;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -62,6 +64,7 @@ public class File {
         file.setComment(fileDTO.getComment());
         file.setFileName(fileDTO.getFileName());
         file.setTotalPath(fileDTO.getTotalPath());
+        file.setFileFormat(fileDTO.getFileFormat());
         return file;
     }
 }

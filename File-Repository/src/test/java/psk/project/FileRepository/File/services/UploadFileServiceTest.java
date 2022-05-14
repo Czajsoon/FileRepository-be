@@ -30,18 +30,18 @@ class UploadFileServiceTest extends IntegrationAbstractTest {
         when(fileDAO.save(any())).thenReturn(fileResponse);
 
         //when
-        FileResponse response = sut.uploadFile(fileDTO);
+        sut.uploadFile(fileDTO);
 
         //then
         verify(fileDAO, times(1)).save(fileDTO);
-        assertThat(response)
-                .hasSamefilenameAs(fileDTO.getFileName())
-                .hasSameFileIdAs(FILE_ID.toString())
-                .hasSameOwnerIdAs(fileDTO.getOwnerId())
-                .hasSameCommentAs(FILE_COMMENT)
-                .hasSameSizeAs(fileDTO.getSize())
-                .hasSameDescriptionAs(fileDTO.getDescription())
-                .hasSamePathAs(fileDTO.getPath());
+//        assertThat(response)
+//                .hasSamefilenameAs(fileDTO.getFileName())
+//                .hasSameFileIdAs(FILE_ID.toString())
+//                .hasSameOwnerIdAs(fileDTO.getOwnerId())
+//                .hasSameCommentAs(FILE_COMMENT)
+//                .hasSameSizeAs(fileDTO.getSize())
+//                .hasSameDescriptionAs(fileDTO.getDescription())
+//                .hasSamePathAs(fileDTO.getPath());
     }
 
 }

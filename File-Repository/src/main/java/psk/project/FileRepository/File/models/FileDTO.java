@@ -21,6 +21,7 @@ public class FileDTO {
     private UUID additionalFileName;
     private String comment;
     private String fileName;
+    private String fileFormat;
     private String totalPath;
 
     public String getOwnerId() {

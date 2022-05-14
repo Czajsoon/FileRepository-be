@@ -20,13 +20,12 @@ class UploadFileService {
     private final FileDAO fileDAO;
 
     @Transactional(rollbackFor = {FileNotSavedException.class, UserNotFoundException.class})
-    public FileResponse uploadFile(FileDTO fileDto) {
+    public void uploadFile(FileDTO fileDto) {
         if (fileDto.getAdditionalPath() == null)
             fileDto.setAdditionalPath("");
 
         FileResponse fileResponse = fileDAO.save(fileDto);
         log.info(String.format("File saved with id:'%s'", fileResponse.getFileId()));
-        return fileResponse;
     }
 
 
