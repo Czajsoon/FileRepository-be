@@ -20,7 +20,7 @@ public class FileController {
     private final FileFacade fileFacade;
 
     @GetMapping("/{fileId}")
-    public FileResponse getFile(@RequestParam String fileId) {
+    public FileResponse getFile(@PathVariable String fileId) {
         return fileFacade.getFileInfoById(fileId);
     }
 

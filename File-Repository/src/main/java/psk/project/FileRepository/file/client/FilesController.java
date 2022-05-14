@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
 import psk.project.FileRepository.file.services.FileFacade;
 import psk.project.FileRepository.models.PageCommand;
 
