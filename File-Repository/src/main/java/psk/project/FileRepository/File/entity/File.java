@@ -66,6 +66,7 @@ public class File {
         file.setComment(fileDTO.getComment());
         file.setFileName(fileDTO.getFileName());
         file.setTotalPath(fileDTO.getTotalPath());
+        file.setFileFormat(fileDTO.getFileFormat());
         return file;
     }
 }

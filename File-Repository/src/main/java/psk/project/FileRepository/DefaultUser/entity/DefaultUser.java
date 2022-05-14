@@ -1,5 +1,6 @@
 package psk.project.FileRepository.DefaultUser.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import psk.project.FileRepository.DefaultUser.entity.models.DefaultUserDTO;
@@ -43,6 +44,7 @@ public class DefaultUser {
     private Plan plan;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
+    @JsonManagedReference
     private List<File> files;
 
     @OneToMany(fetch= FetchType.LAZY,mappedBy = "defaultUser")

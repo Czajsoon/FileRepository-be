@@ -14,6 +14,7 @@ public class FileResponse {
     private Long size;
     private String path;
     private String fileName;
+    private String fileFormat;
     private String description;
     private String comment;
 //    private List<String>
@@ -30,6 +31,7 @@ public class FileResponse {
         return FileResponse.builder()
                 .description(description)
                 .size(file.getSize())
+                .fileFormat(file.getFileFormat())
                 .ownerId(file.getDefaultUser()
                         .getDefaultUserID()
                         .toString())

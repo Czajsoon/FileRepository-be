@@ -14,16 +14,19 @@ class FileFacadeTest extends IntegrationAbstractTest {
     private final UploadFileService uploadFileService;
     private final ResponseFileService responseFileService;
     private final DownloadFileService downloadFileService;
+    private final EditFileService editFileService;
     private final FileFacade sut;
 
     FileFacadeTest() {
         uploadFileService = mock(UploadFileService.class);
         responseFileService = mock(ResponseFileService.class);
         downloadFileService = mock(DownloadFileService.class);
+        editFileService = mock(EditFileService.class);
         sut = new FileFacade(
                 uploadFileService,
                 responseFileService,
-                downloadFileService
+                downloadFileService,
+                editFileService
         );
     }
 

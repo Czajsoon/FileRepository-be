@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import psk.project.FileRepository.File.exceptions.FileNotFoundException;
-import psk.project.FileRepository.File.exceptions.FileNotSavedException;
+import psk.project.FileRepository.File.exceptions.*;
 
 @ControllerAdvice
 @EnableWebMvc
@@ -16,19 +15,26 @@ import psk.project.FileRepository.File.exceptions.FileNotSavedException;
 public class FileNotSavedAdvice {
 
     @ResponseBody
-    @ExceptionHandler(FileNotSavedException.class)
+    @ExceptionHandler({
+            FileNotSavedException.class,
+            FileExistsOnDirectoryException.class
+    })
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String FileNotSavedHandler(FileNotSavedException ex){
-        log.warn(String.format("Saving file failed with message:'%s'", ex.getMessage()));
+    public String FileNotSavedHandler(RuntimeException ex){
+        log.warn(String.format("Error: %s", ex.getMessage()));
         return ex.getMessage();
     }
 
     @ResponseBody
-    @ExceptionHandler(FileNotFoundException.class)
+    @ExceptionHandler({
+            FileNotFoundException.class,
+            FilesNoOnDirectory.class,
+            FileChangeNameException.class,
+            FileChangeDirectoryException.class
+    })
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String FileNofFoundException(FileNotFoundException ex){
-        log.warn(String.format("File not found with message:'%s'", ex.getMessage()));
+    public String FileNofFoundException(RuntimeException ex){
+        log.warn(String.format("Error: '%s'", ex.getMessage()));
         return ex.getMessage();
     }
-
 }
