@@ -2,11 +2,11 @@ package psk.project.FileRepository;
 
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
-import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
-import psk.project.FileRepository.File.DAO.FakeFileBuilder;
-import psk.project.FileRepository.File.entity.File;
-import psk.project.FileRepository.File.models.FileDTO;
-import psk.project.FileRepository.File.models.FileResponse;
+import psk.project.FileRepository.defaultUser.entity.DefaultUser;
+import psk.project.FileRepository.file.dao.FakeFileBuilder;
+import psk.project.FileRepository.file.entity.File;
+import psk.project.FileRepository.file.models.FileDTO;
+import psk.project.FileRepository.file.models.FileResponse;
 import psk.project.FileRepository.defaultUser.FakeDefaultUserBuilder;
 
 import java.util.UUID;
