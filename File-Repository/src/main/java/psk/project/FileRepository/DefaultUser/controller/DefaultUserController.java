@@ -3,6 +3,7 @@ package psk.project.FileRepository.DefaultUser.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import psk.project.FileRepository.DefaultUser.entity.DefaultUser;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 
 @Controller
 @RequestMapping("/users")
+@CrossOrigin("http://localhost:4200")
 @AllArgsConstructor
 public class DefaultUserController {
     private final DefaultUserRepository userRepository;

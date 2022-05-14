@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("file")
-@CrossOrigin("localhost:4200")
+@CrossOrigin("http://localhost:4200")
 @AllArgsConstructor
 public class FileController {
     private final FileFacade fileFacade;

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("files")
-@CrossOrigin("localhost:4200")
+@CrossOrigin("http://localhost:4200")
 @AllArgsConstructor
 public class FilesController {
     private final FileFacade fileFacade;
@@ -22,11 +22,6 @@ public class FilesController {
     public void download(HttpServletResponse response, @PathVariable List<String> files) {
         fileFacade.downloadFiles(response, files);
     }
-
-//    @GetMapping("info")
-//    public List<FileResponse> getAllFiles() {
-//        return fileFacade.getAllFiles();
-//    }
 
     @PostMapping(path = "/{user}")
     public void postFiles(@PathVariable String user,

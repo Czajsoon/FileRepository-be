@@ -35,7 +35,7 @@ public class File {
     private String description;
 
     @Column
-    private String fileFormat;//TODO fileformat after addfile!!!
+    private String fileFormat;
 
     @Column
     private Long size;
