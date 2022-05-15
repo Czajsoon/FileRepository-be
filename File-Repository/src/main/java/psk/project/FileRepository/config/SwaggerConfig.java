@@ -18,17 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig implements WebMvcConfigurer {
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/null/api-docs",
-                "/api-docs").setKeepQueryParams(true);
-        registry.addRedirectViewController("/null/swagger-resources/configuration/ui",
-                "/swagger-resources/configuration/ui");
-        registry.addRedirectViewController("/null/swagger-resources/configuration/security",
-                "/swagger-resources/configuration/security");
-        registry.addRedirectViewController("/null/swagger-resources", "/swagger-resources");
-    }
-
-    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry
