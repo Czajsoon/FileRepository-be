@@ -23,6 +23,7 @@ public class FileDTO {
     private String fileName;
     private String fileFormat;
     private String totalPath;
+    private String pureFileName;
 
     public String getOwnerId() {
         return ownerId.toString();

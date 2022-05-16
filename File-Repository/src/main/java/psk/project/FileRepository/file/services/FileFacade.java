@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import psk.project.FileRepository.file.models.FileCommand;
 import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.models.PageCommand;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,6 @@ public class FileFacade {
         return responseFileService.getFileInfoById(id);
     }
 
-    public List<FileResponse> getAllFiles() {
-        return responseFileService.getAllFiles();
-    }
-
     public ResponseEntity<Resource> downloadFile(String id) {
         return downloadFileService.downloadFile(id);
     }
@@ -51,12 +48,8 @@ public class FileFacade {
         fileIds.forEach(this::deleteFile);
     }
 
-    public List<FileResponse> getAllFormDirectory(String directory, String userId) {
-        return responseFileService.getFilesInfoByDirectory(directory, userId);
-    }
-
-    public Map<String,Object> getAllUserFiles(String userId, PageCommand command) {
-        return responseFileService.getUserFiles(userId, command);
+    public Map<String, Object> getAllUserFiles(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
+        return responseFileService.getUserFiles(userId, searchCommand, pageCommand);
     }
 
     public void edit(FileCommand command) {

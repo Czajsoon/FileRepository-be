@@ -11,6 +11,7 @@ import psk.project.FileRepository.defaultUser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -20,7 +21,7 @@ public class DefaultUserController {
     private final DefaultUserRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<?> getUsers(){
+    public ResponseEntity<List<DefaultUser>> getUsers(){
         return ResponseEntity.ok(userRepository.findAll());
     }
 
@@ -32,6 +33,14 @@ public class DefaultUserController {
                 .surname("Czajkowski")
                 .email("kubaczajkowski25@gmail.com")
                 .login("1234")
+                .password("123")
+                .build()));
+
+        userRepository.save(DefaultUser.of(DefaultUserDTO.builder()
+                .name("Jakub")
+                .surname("Czajkowski")
+                .email("kubaczajkowski25@gmail.com")
+                .login("12345")
                 .password("123")
                 .build()));
     }

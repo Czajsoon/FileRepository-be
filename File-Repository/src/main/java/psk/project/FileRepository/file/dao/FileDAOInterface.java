@@ -1,7 +1,7 @@
 package psk.project.FileRepository.file.dao;
 
 import org.springframework.data.domain.Page;
-import psk.project.FileRepository.file.entity.File;
+import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.util.List;
@@ -12,9 +12,7 @@ public interface FileDAOInterface<T, S, U> {
 
     List<T> getAll(List<String> idList);
 
-    Page<T> getAllByUser(String userId, PageCommand command);
-
-    List<T> getAllByPath(String path,String userId);
+    Page<T> getAllByUser(String userId, FileSearchCommand searchCommand, PageCommand pageCommand);
 
     List<S> getAll();
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.file.models.FileDTO;
+import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.file.services.FileFacade;
 import psk.project.FileRepository.models.PageCommand;
 
@@ -48,15 +49,19 @@ public class FilesController {
     public Map<String,Object> getFilesInDirectory(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestBody(required = false) FileSearchCommand command,
             @PathVariable String userId
     ) {
         return fileFacade.getAllUserFiles(
                 userId,
+                command,
                 PageCommand.builder()
                         .page(page)
                         .size(size)
                         .build()
         );
     }
+
+
 
 }

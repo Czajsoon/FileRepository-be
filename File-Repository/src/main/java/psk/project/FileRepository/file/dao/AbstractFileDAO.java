@@ -3,6 +3,9 @@ package psk.project.FileRepository.file.dao;
 import lombok.SneakyThrows;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,18 +16,19 @@ import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileNotSavedException;
 import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
+import psk.project.FileRepository.models.PageCommand;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static psk.project.FileRepository.utils.StringOperationUtils.getFileExtention;
 
 abstract class AbstractFileDAO {
 
@@ -32,6 +36,7 @@ abstract class AbstractFileDAO {
     protected final DefaultUserRepository userRepository;
 
     public final String rootPath;
+    private static final String ROOT_FOLDER_NAME = "/Folder główny";
 
     protected AbstractFileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         this.fileRepository = fileRepository;
@@ -49,8 +54,9 @@ abstract class AbstractFileDAO {
         Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
         fileDTO.setTotalPath(fileDTO.getPath().substring(rootPath.length()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
-        StringBuilder fileExtension = new StringBuilder(getFileExtention(fileDTO.getFile().getOriginalFilename()));
+        StringBuilder fileExtension = new StringBuilder(getFileExtention(Objects.requireNonNull(fileDTO.getFile().getOriginalFilename())));
         fileDTO.setFileFormat(fileExtension.deleteCharAt(0).toString().toUpperCase());
+        fileDTO.setPureFileName(fileDTO.getFileName().substring(0, fileDTO.getFileName().length() - (fileDTO.getFileFormat().length() + 1)));
         if (user.isPresent()) {
             return fileRepository.save(File.of(fileDTO, user.get()));
         } else throw new UserNotFoundException(fileDTO.getOwnerId());
@@ -58,7 +64,7 @@ abstract class AbstractFileDAO {
 
     protected String setFilePath(String path) {
         if (path.length() == 0)
-            return "/Folder główny";
+            return ROOT_FOLDER_NAME;
         else
             return path;
     }
@@ -96,11 +102,10 @@ abstract class AbstractFileDAO {
 
     protected Path createDirectoryPath(String path, String user) {
         String userPath = rootPath;
-        if(path.length() != 0){
-            if(path.equals("/Folder główny"))userPath += "/" + user + "/";
+        if (path.length() != 0) {
+            if (path.equals(ROOT_FOLDER_NAME)) userPath += "/" + user + "/";
             else userPath += "/" + user + "/" + path + "/";
-        }
-        else userPath += "/" + user + "/";
+        } else userPath += "/" + user + "/";
         return Path.of(userPath);
     }
 
@@ -116,20 +121,8 @@ abstract class AbstractFileDAO {
         }
     }
 
-    protected String buildFileNameWithExtention(String filename,String newFilename){
+    protected String buildFileNameWithExtention(String filename, String newFilename) {
         return newFilename + getFileExtention(filename);
-    }
-
-    private String getFileExtention(String filename) {
-        StringBuilder extention = new StringBuilder();
-        boolean flag = false;
-        for (int i = filename.length() - 1; i > 0; i--) {
-            if (flag) break;
-            if(filename.charAt(i) == '.') flag = true;
-            extention.append(filename.charAt(i));
-        }
-        extention.reverse();
-        return extention.toString();
     }
 
     private Path saveFile(Path path, MultipartFile file, UUID fileUUID) {
@@ -140,13 +133,13 @@ abstract class AbstractFileDAO {
                 Files.copy(
                         file.getInputStream(),
                         finalPath,
-                        StandardCopyOption.REPLACE_EXISTING);
+                        REPLACE_EXISTING);
             } else {
                 finalPath = Path.of(path + "/" + file.getOriginalFilename());
                 Files.copy(
                         file.getInputStream(),
                         finalPath,
-                        StandardCopyOption.REPLACE_EXISTING);
+                        REPLACE_EXISTING);
             }
             return finalPath;
         } catch (IOException e) {
@@ -157,9 +150,50 @@ abstract class AbstractFileDAO {
     protected String getTotalPathFileById(String fileId) {
         File file = fileRepository.findById(UUID.fromString(fileId))
                 .orElseThrow(NoSuchElementException::new);
-        if(file.getPath().equals("/Folder główny"))
+        if (file.getPath().equals(ROOT_FOLDER_NAME))
             return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getFileName();
         return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getPath() + "/" + file.getFileName();
+    }
+
+    protected Page<File> getAllUserFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
+        return fileRepository.findAll(specificationFactory(user, searchCommand), PageRequest.of(pageCommand.getPage(), pageCommand.getSize()));
+    }
+
+    private Specification<File> specificationFactory(DefaultUser user, FileSearchCommand searchCommand) {
+        return Specification.where(buildSearchCriteriaList(user, searchCommand).build());
+    }
+
+    private FileSearchBuilder buildSearchCriteriaList(DefaultUser user, FileSearchCommand command) {
+        FileSearchBuilder fileSearchBuilder = new FileSearchBuilder();
+        fileSearchBuilder.with("defaultUser", ":", user);
+        if (command == null) return fileSearchBuilder;
+        if (command.getFileFormat() != null) {
+            fileSearchBuilder.with(command.getNameFileFormat(), ":", command.getFileFormat().toUpperCase());
+        }
+        if (command.getFileName() != null) {
+            fileSearchBuilder.with(command.getNameFileName(), ":", command.getFileName());
+        }
+        if (getResultOfSearchCommandSizeCondition(command)) {
+            fileSearchBuilder.with(command.getNameSize(), command.getOperation(), command.getSize());
+        }
+        if (command.getPath() != null) {
+            fileSearchBuilder.with(command.getNamePath(), ":", command.getPath());
+        }
+        if (command.getDescription() != null) {
+            fileSearchBuilder.with(command.getNameDescription(), ":", command.getDescription());
+        }
+        return fileSearchBuilder;
+    }
+
+    private boolean getResultOfSearchCommandSizeCondition(FileSearchCommand command) {
+        if (command.getSize() != null && command.getOperation() != null) {
+            if (command.getOperation().equals(">") || command.getOperation().equals("<") || command.getOperation().equals(":")) {
+                return true;
+            }
+            command.setOperation(":");
+            return true;
+        }
+        return false;
     }
 
     @SneakyThrows

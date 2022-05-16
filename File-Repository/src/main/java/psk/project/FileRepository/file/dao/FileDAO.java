@@ -1,8 +1,6 @@
 package psk.project.FileRepository.file.dao;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import psk.project.FileRepository.defaultUser.entity.DefaultUser;
 import psk.project.FileRepository.defaultUser.exceptions.UserNotFoundException;
@@ -13,6 +11,7 @@ import psk.project.FileRepository.file.exceptions.FileChangeNameException;
 import psk.project.FileRepository.file.exceptions.FileExistsOnDirectoryException;
 import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
@@ -43,17 +42,10 @@ public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File, F
     }
 
     @Override
-    public Page<File> getAllByUser(String userId, PageCommand command) {
+    public Page<File> getAllByUser(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
         DefaultUser user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new UserNotFoundException(userId));
-        return fileRepository.findAllByDefaultUser(user, PageRequest.of(command.getPage(),command.getSize()));
-    }
-
-    @Override
-    public List<File> getAllByPath(String path,String userId) {
-        DefaultUser user = userRepository.findById(UUID.fromString(userId))
-                .orElseThrow(() -> new UserNotFoundException(userId));
-        return fileRepository.findAllByPathAndDefaultUser(path,user);
+        return getAllUserFiles(user, searchCommand, pageCommand);
     }
 
     @Override

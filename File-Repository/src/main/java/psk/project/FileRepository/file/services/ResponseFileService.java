@@ -6,14 +6,13 @@ import org.springframework.stereotype.Service;
 import psk.project.FileRepository.file.dao.FileDAO;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileNotFoundException;
-import psk.project.FileRepository.file.exceptions.FilesNoOnDirectory;
 import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -28,18 +27,12 @@ class ResponseFileService {
         throw new FileNotFoundException(id);
     }
 
-    public List<FileResponse> getFilesInfoByDirectory(String directory, String userId) {
-        List<File> allByPath = fileDAO.getAllByPath(directory, userId);
-        if (allByPath.isEmpty()) throw new FilesNoOnDirectory(directory);
-        return allByPath.stream().map(FileResponse::of).collect(Collectors.toList());
-    }
-
-    public Map<String,Object> getUserFiles(String userId, PageCommand command) {
-        Page<File> allByUser = fileDAO.getAllByUser(userId,command);
+    public Map<String, Object> getUserFiles(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
+        Page<File> allByUser = fileDAO.getAllByUser(userId, searchCommand, pageCommand);
         return Map.ofEntries(
-                Map.entry(command.getNameTotalRecords(), allByUser.getTotalElements()),
-                Map.entry(command.getNameFiles(), allByUser.getContent().stream().map(FileResponse::of).toList()),
-                Map.entry(command.getNameTotalPages(), allByUser.getTotalPages())
+                Map.entry(pageCommand.getNameTotalRecords(), allByUser.getTotalElements()),
+                Map.entry(pageCommand.getNameFiles(), allByUser.getContent().stream().map(FileResponse::of).toList()),
+                Map.entry(pageCommand.getNameTotalPages(), allByUser.getTotalPages())
         );
     }
 
