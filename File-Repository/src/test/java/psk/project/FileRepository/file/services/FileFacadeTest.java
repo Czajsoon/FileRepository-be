@@ -56,15 +56,6 @@ class FileFacadeTest extends IntegrationAbstractTest {
     }
 
     @Test
-    void invoke_get_all_files() {
-        //given & then
-        sut.getAllFiles();
-
-        //then
-        verify(responseFileService, times(1)).getAllFiles();
-    }
-
-    @Test
     void invoke_download_file() {
         //given
         String id = FILE_ID.toString();
