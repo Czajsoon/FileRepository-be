@@ -45,7 +45,7 @@ public class FilesController {
         fileFacade.deleteFiles(fileIds);
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/get/{userId}")
     public Map<String,Object> getFilesInDirectory(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
