@@ -17,6 +17,7 @@ public class FileResponse {
     private String fileFormat;
     private String description;
     private String comment;
+    private String fileTotalPath;
 //    private List<String>
 
     public static FileResponse of(File file) {
@@ -35,8 +36,9 @@ public class FileResponse {
                 .ownerId(file.getDefaultUser()
                         .getDefaultUserID()
                         .toString())
+                .fileTotalPath(System.getProperty("user.dir") + "/server/" + file.getTotalPath())
                 .path(path)
-                .fileName(file.getFileName())
+                .fileName(file.getPureFileName())
                 .comment(file.getComment())
                 .fileId(file.getFileID().toString())
                 .build();

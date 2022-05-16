@@ -38,6 +38,9 @@ public class File {
     private String fileFormat;
 
     @Column
+    private String pureFileName;
+
+    @Column
     private Long size;
 
     @Column
@@ -62,6 +65,7 @@ public class File {
         file.setDefaultUser(user);
         file.setSize(fileDTO.getSize());
         file.setPath(fileDTO.getPath());
+        file.setPureFileName(fileDTO.getPureFileName());
         file.setDescription(fileDTO.getDescription());
         file.setComment(fileDTO.getComment());
         file.setFileName(fileDTO.getFileName());
