@@ -3,7 +3,7 @@ package psk.project.FileRepository.file.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import psk.project.FileRepository.defaultUser.entity.DefaultUser;
-import psk.project.FileRepository.defaultUser.exceptions.UserNotFoundException;
+import psk.project.FileRepository.defaultUser.exceptions.DefaultUserNotFoundException;
 import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileChangeDirectoryException;
@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File, FileResponse, FileDTO> {
+public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, FileResponse, FileDTO> {
 
     public FileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         super(fileRepository, userRepository);
@@ -45,7 +45,7 @@ public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File, F
     @Override
     public Page<File> getAllByUser(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
         DefaultUser user = userRepository.findById(UUID.fromString(userId))
-                .orElseThrow(() -> new UserNotFoundException(userId));
+                .orElseThrow(() -> new DefaultUserNotFoundException(userId));
         return getAllUserFiles(user, searchCommand, pageCommand);
     }
 
@@ -57,7 +57,7 @@ public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File, F
     @Override
     public FileResponse save(FileDTO fileDTO) {
         DefaultUser user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()))
-                .orElseThrow(() -> new UserNotFoundException(fileDTO.getOwnerId()));
+                .orElseThrow(() -> new DefaultUserNotFoundException(fileDTO.getOwnerId()));
         checkTransferIsPossible(user, BigInteger.valueOf(fileDTO.getFile().getSize()));
         checkFileExistsOnDirectoryAndGenerateFileNameAndComment(fileDTO);
         Path path = saveFileOnDisc(fileDTO);

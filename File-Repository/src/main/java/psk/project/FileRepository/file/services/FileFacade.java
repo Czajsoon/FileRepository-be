@@ -18,10 +18,10 @@ import java.util.Map;
 @AllArgsConstructor
 public class FileFacade {
 
-    private final UploadFileService uploadFileService;
-    private final ResponseFileService responseFileService;
-    private final DownloadFileService downloadFileService;
-    private final EditFileService editFileService;
+    private final FileUploadService uploadFileService;
+    private final FileResponseService responseFileService;
+    private final FileDownloadService downloadFileService;
+    private final FileEditService editFileService;
 
 
     public void saveFile(FileDTO fileDTO) {

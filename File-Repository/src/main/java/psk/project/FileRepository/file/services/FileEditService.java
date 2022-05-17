@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class EditFileService {
+public class FileEditService {
 
     private final FileRepository fileRepository;
     private final FileDAO fileDAO;

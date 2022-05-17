@@ -11,14 +11,14 @@ import java.util.List;
 @AllArgsConstructor
 public class FileSearchBuilder {
 
-    private final List<SearchCriteria> params;
+    private final List<FileSearchCriteria> params;
 
     public FileSearchBuilder() {
         this.params = new ArrayList<>();
     }
 
     public FileSearchBuilder with(String key, String operation, Object value) {
-        params.add(new SearchCriteria(key, operation, value));
+        params.add(new FileSearchCriteria(key, operation, value));
         return this;
     }
 

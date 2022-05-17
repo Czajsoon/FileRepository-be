@@ -1,8 +1,8 @@
 package psk.project.FileRepository.defaultUser.exceptions;
 
-public class RegisterException extends RuntimeException{
+public class DefaultUserRegisterException extends RuntimeException{
 
-    public RegisterException(){
+    public DefaultUserRegisterException(){
         super("Rejestracja nie powiodła się");
     }
 }

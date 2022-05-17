@@ -12,7 +12,7 @@ import psk.project.FileRepository.file.exceptions.*;
 @ControllerAdvice
 @EnableWebMvc
 @Slf4j
-public class FileNotSavedAdvice {
+public class FileAdviceController {
 
     @ResponseBody
     @ExceptionHandler({
@@ -21,7 +21,7 @@ public class FileNotSavedAdvice {
             FileTransferNotPossibleException.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String FileNotSavedHandler(RuntimeException ex){
+    public String conflictAdvice(RuntimeException ex){
         log.warn(String.format("Error: %s", ex.getMessage()));
         return ex.getMessage();
     }
@@ -34,7 +34,7 @@ public class FileNotSavedAdvice {
             FileChangeDirectoryException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String FileNofFoundException(RuntimeException ex){
+    public String noyFoundAdvice(RuntimeException ex){
         log.warn(String.format("Error: '%s'", ex.getMessage()));
         return ex.getMessage();
     }

@@ -34,6 +34,9 @@ public class DefaultUser {
     private String login;
 
     @Column
+    private String photoLink;
+
+    @Column
     private String password;
 
     @Column

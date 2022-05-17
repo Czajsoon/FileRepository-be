@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-class ResponseFileService {
+class FileResponseService {
 
     private final FileDAO fileDAO;
 

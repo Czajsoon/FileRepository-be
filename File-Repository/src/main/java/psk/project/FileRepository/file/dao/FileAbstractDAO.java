@@ -1,6 +1,5 @@
 package psk.project.FileRepository.file.dao;
 
-import com.google.common.math.BigIntegerMath;
 import lombok.SneakyThrows;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -32,7 +31,7 @@ import java.util.*;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static psk.project.FileRepository.utils.StringOperationUtils.getFileExtention;
 
-abstract class AbstractFileDAO {
+abstract class FileAbstractDAO {
 
     protected final FileRepository fileRepository;
     protected final DefaultUserRepository userRepository;
@@ -40,7 +39,7 @@ abstract class AbstractFileDAO {
     public final String rootPath;
     private static final String ROOT_FOLDER_NAME = "/Folder główny";
 
-    protected AbstractFileDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
+    protected FileAbstractDAO(FileRepository fileRepository, DefaultUserRepository userRepository) {
         this.fileRepository = fileRepository;
         this.userRepository = userRepository;
         this.rootPath = System.getProperty("user.dir") + "/server/";
