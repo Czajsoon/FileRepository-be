@@ -1,5 +1,6 @@
 package psk.project.FileRepository.file.dao;
 
+import com.google.common.math.BigIntegerMath;
 import lombok.SneakyThrows;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -10,10 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.defaultUser.entity.DefaultUser;
-import psk.project.FileRepository.defaultUser.exceptions.UserNotFoundException;
 import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileNotSavedException;
+import psk.project.FileRepository.file.exceptions.FileTransferNotPossibleException;
 import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.file.models.FileResponse;
 import psk.project.FileRepository.file.models.FileSearchCommand;
@@ -22,6 +23,7 @@ import psk.project.FileRepository.models.PageCommand;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,16 +52,26 @@ abstract class AbstractFileDAO {
                 .toList();
     }
 
-    public File saveInRepository(FileDTO fileDTO) {
-        Optional<DefaultUser> user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()));
+    public File saveInRepository(FileDTO fileDTO,DefaultUser user) {
+        updateTransferUser(user,fileDTO.getSize());
         fileDTO.setTotalPath(fileDTO.getPath().substring(rootPath.length()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
         StringBuilder fileExtension = new StringBuilder(getFileExtention(Objects.requireNonNull(fileDTO.getFile().getOriginalFilename())));
         fileDTO.setFileFormat(fileExtension.deleteCharAt(0).toString().toUpperCase());
         fileDTO.setPureFileName(fileDTO.getFileName().substring(0, fileDTO.getFileName().length() - (fileDTO.getFileFormat().length() + 1)));
-        if (user.isPresent()) {
-            return fileRepository.save(File.of(fileDTO, user.get()));
-        } else throw new UserNotFoundException(fileDTO.getOwnerId());
+        return fileRepository.save(File.of(fileDTO, user));
+    }
+
+    protected void checkTransferIsPossible(DefaultUser user, BigInteger size){
+        if (user.getPlan().getCapacity().compareTo(user.getTransferUsage().add(size)) < 0){
+            throw new FileTransferNotPossibleException();
+        }
+    }
+
+    private void updateTransferUser(DefaultUser user,BigInteger fileSize){
+        //todo error when transfer is not possible
+        user.setTransferUsage(user.getTransferUsage().add(fileSize));
+        userRepository.save(user);
     }
 
     protected String setFilePath(String path) {

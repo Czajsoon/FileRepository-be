@@ -11,6 +11,7 @@ import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.sharedFile.entity.SharedFile;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class File {
     private String pureFileName;
 
     @Column
-    private Long size;
+    private BigInteger size;
 
     @Column
     @JsonIgnore

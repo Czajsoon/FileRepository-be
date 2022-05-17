@@ -9,6 +9,7 @@ import psk.project.FileRepository.file.services.FileFacade;
 import psk.project.FileRepository.models.PageCommand;
 
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class FilesController {
                 .fileName(mFile.getOriginalFilename())
                 .ownerId(UUID.fromString(user))
                 .description(description)
-                .size(mFile.getSize())
+                .size(BigInteger.valueOf(mFile.getSize()))
                 .additionalPath(path)
                 .build()));
     }

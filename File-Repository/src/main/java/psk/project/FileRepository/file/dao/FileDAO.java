@@ -16,6 +16,7 @@ import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -55,10 +56,13 @@ public class FileDAO extends AbstractFileDAO implements FileDAOInterface<File, F
 
     @Override
     public FileResponse save(FileDTO fileDTO) {
+        DefaultUser user = userRepository.findById(UUID.fromString(fileDTO.getOwnerId()))
+                .orElseThrow(() -> new UserNotFoundException(fileDTO.getOwnerId()));
+        checkTransferIsPossible(user, BigInteger.valueOf(fileDTO.getFile().getSize()));
         checkFileExistsOnDirectoryAndGenerateFileNameAndComment(fileDTO);
         Path path = saveFileOnDisc(fileDTO);
         fileDTO.setPath(path.toString());
-        File file = saveInRepository(fileDTO);
+        File file = saveInRepository(fileDTO,user);
         return FileResponse.of(file);
     }
 

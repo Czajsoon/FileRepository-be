@@ -10,6 +10,7 @@ import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.sharedFile.entity.SharedFile;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,9 +39,13 @@ public class DefaultUser {
     @Column
     private String email;
 
+    @Column
+    private BigInteger transferUsage;
+
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "planID")
+    @JsonManagedReference
     private Plan plan;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
@@ -60,6 +65,19 @@ public class DefaultUser {
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
+        user.setTransferUsage(dto.getTransfer());
+        return user;
+    }
+
+    public static DefaultUser of(DefaultUserDTO dto,Plan plan){
+        DefaultUser user = new DefaultUser();
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setLogin(dto.getLogin());
+        user.setPassword(dto.getPassword());
+        user.setEmail(dto.getEmail());
+        user.setPlan(plan);
+        user.setTransferUsage(BigInteger.ZERO);
         return user;
     }
 }

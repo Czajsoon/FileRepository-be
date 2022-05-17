@@ -17,7 +17,8 @@ public class FileNotSavedAdvice {
     @ResponseBody
     @ExceptionHandler({
             FileNotSavedException.class,
-            FileExistsOnDirectoryException.class
+            FileExistsOnDirectoryException.class,
+            FileTransferNotPossibleException.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public String FileNotSavedHandler(RuntimeException ex){

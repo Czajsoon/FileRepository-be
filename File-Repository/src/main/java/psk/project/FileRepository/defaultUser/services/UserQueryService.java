@@ -9,6 +9,8 @@ import psk.project.FileRepository.defaultUser.entity.models.LoginDTO;
 import psk.project.FileRepository.defaultUser.exceptions.RegisterException;
 import psk.project.FileRepository.defaultUser.exceptions.WrongAuthorizationDataException;
 import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
+import psk.project.FileRepository.plan.entity.Plan;
+import psk.project.FileRepository.plan.repository.PlanRepository;
 
 
 @Service
@@ -16,6 +18,7 @@ import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
 public class UserQueryService {
 
     private final DefaultUserRepository defaultUserRepository;
+    private final PlanRepository planRepository;
 
     public DefautUserLoginResponse findDefaultUserByLoginAndPassword(LoginDTO loginDTO) {
         DefaultUser defaultUser = defaultUserRepository
@@ -29,13 +32,15 @@ public class UserQueryService {
     public Boolean registerNewUser(DefaultUserDTO defaultUserDTO){
 
         try {
+            Plan plan = planRepository.findById(1L)
+                    .orElseThrow(IllegalArgumentException::new);
             defaultUserRepository.save(DefaultUser.of(DefaultUserDTO.builder()
                     .name(defaultUserDTO.getName())
                     .surname(defaultUserDTO.getSurname())
                     .email(defaultUserDTO.getEmail())
                     .login(defaultUserDTO.getLogin())
                     .password(defaultUserDTO.getPassword())
-                    .build()));
+                    .build(),plan));
         }
         catch(IllegalArgumentException ex){
             throw new RegisterException();

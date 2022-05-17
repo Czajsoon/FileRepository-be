@@ -7,6 +7,7 @@ import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.plan.repository.PlanRepository;
 
 import javax.annotation.PostConstruct;
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -17,10 +18,14 @@ public class PlanController {
 
     @PostConstruct
     private void insertPlans(){
-//    Plan normal= Plan.builder().name("Normal").capacity(0.2).price(19.99).build();
+    Plan normal= Plan.builder()
+            .name("Darmowy")
+            .capacity(BigInteger.valueOf(300000L))
+            .price(19.99)
+            .build();
 //    Plan premium= Plan.builder().name("Premium").capacity(0.5).price(29.99).build();
 //    Plan premiumplus= Plan.builder().name("Premium+").capacity(1.0).price(39.99).build();
-//        planRepository.save(normal);
+        planRepository.save(normal);
 //        planRepository.save(premium);
 //        planRepository.save(premiumplus);
 

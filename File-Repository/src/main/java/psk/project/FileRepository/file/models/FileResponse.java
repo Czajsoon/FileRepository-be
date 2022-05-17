@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import psk.project.FileRepository.file.entity.File;
 
+import java.math.BigInteger;
+
 @Builder
 @Getter
 @Setter
 public class FileResponse {
     private String ownerId;
     private String fileId;
-    private Long size;
+    private BigInteger size;
     private String path;
     private String fileName;
     private String fileFormat;

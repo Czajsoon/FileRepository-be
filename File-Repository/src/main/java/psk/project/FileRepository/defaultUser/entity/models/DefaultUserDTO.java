@@ -2,6 +2,8 @@ package psk.project.FileRepository.defaultUser.entity.models;
 
 import lombok.*;
 
+import java.math.BigInteger;
+
 @Getter
 @Setter
 @Builder
@@ -13,4 +15,5 @@ public class DefaultUserDTO {
     private String login;
     private String password;
     private String email;
+    private BigInteger transfer;
 }
