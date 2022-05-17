@@ -1,11 +1,6 @@
 package psk.project.FileRepository.file.dao;
 
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
 import psk.project.FileRepository.file.entity.File;
-
-import java.util.UUID;
-
-import static psk.project.FileRepository.RandomUtilTest.*;
 
 public class FakeFileBuilder extends File {
 //

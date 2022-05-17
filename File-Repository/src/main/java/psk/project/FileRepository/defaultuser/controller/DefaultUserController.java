@@ -1,4 +1,4 @@
-package psk.project.FileRepository.defaultUser.controller;
+package psk.project.FileRepository.defaultuser.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
-import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
+import psk.project.FileRepository.defaultuser.entity.DefaultUser;
+import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 
 import java.util.List;
 

@@ -1,14 +1,14 @@
-package psk.project.FileRepository.defaultUser.controller;
+package psk.project.FileRepository.defaultuser.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import psk.project.FileRepository.defaultUser.entity.models.DefaultUserDTO;
-import psk.project.FileRepository.defaultUser.entity.models.DefautUserLoginResponse;
-import psk.project.FileRepository.defaultUser.entity.models.DefaultUserLoginDTO;
-import psk.project.FileRepository.defaultUser.services.DefaultUserAuthorizeService;
+import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
+import psk.project.FileRepository.defaultuser.entity.models.DefautUserLoginResponse;
+import psk.project.FileRepository.defaultuser.entity.models.DefaultUserLoginDTO;
+import psk.project.FileRepository.defaultuser.services.DefaultUserAuthorizeService;
 
 @RestController
 @AllArgsConstructor

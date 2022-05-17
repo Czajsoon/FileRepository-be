@@ -2,9 +2,9 @@ package psk.project.FileRepository.file.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
-import psk.project.FileRepository.defaultUser.exceptions.DefaultUserNotFoundException;
-import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
+import psk.project.FileRepository.defaultuser.entity.DefaultUser;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundException;
+import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileChangeDirectoryException;
 import psk.project.FileRepository.file.exceptions.FileChangeNameException;

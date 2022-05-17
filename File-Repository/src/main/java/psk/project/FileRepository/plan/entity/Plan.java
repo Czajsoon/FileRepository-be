@@ -2,7 +2,7 @@ package psk.project.FileRepository.plan.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
+import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 import psk.project.FileRepository.payment.entity.Payment;
 
 import javax.persistence.*;

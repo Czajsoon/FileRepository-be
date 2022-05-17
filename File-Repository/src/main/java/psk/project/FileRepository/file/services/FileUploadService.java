@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import psk.project.FileRepository.defaultUser.exceptions.DefaultUserNotFoundException;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundException;
 import psk.project.FileRepository.file.dao.FileDAO;
 import psk.project.FileRepository.file.exceptions.FileNotSavedException;
 import psk.project.FileRepository.file.models.FileDTO;

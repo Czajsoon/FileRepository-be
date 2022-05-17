@@ -1,4 +1,4 @@
-package psk.project.FileRepository.defaultUser.exceptions.advices;
+package psk.project.FileRepository.defaultuser.exceptions.advices;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import psk.project.FileRepository.defaultUser.exceptions.DefaultUserLoginAlreadyExistsException;
-import psk.project.FileRepository.defaultUser.exceptions.DefaultUserNotFoundException;
-import psk.project.FileRepository.defaultUser.exceptions.DefaultUserRegisterException;
-import psk.project.FileRepository.defaultUser.exceptions.DefaultUserWrongAuthorizationDataException;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserLoginAlreadyExistsException;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundException;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserRegisterException;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserWrongAuthorizationDataException;
 
 @ControllerAdvice
 @Slf4j

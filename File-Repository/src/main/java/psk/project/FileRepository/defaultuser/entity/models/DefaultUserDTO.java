@@ -1,4 +1,4 @@
-package psk.project.FileRepository.defaultUser.entity.models;
+package psk.project.FileRepository.defaultuser.entity.models;
 
 import lombok.*;
 

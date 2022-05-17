@@ -1,18 +1,6 @@
 package psk.project.FileRepository.file.dao;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import psk.project.FileRepository.defaultUser.repository.DefaultUserRepository;
-import psk.project.FileRepository.file.entity.File;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.IntegrationAbstractTest;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.Mockito.*;
 
 class FileDAOTest extends IntegrationAbstractTest {
 //    private final FileRepository fileRepository;

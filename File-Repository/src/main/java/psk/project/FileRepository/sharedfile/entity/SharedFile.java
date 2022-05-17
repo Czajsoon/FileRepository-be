@@ -1,7 +1,7 @@
-package psk.project.FileRepository.sharedFile.entity;
+package psk.project.FileRepository.sharedfile.entity;
 
 import lombok.Data;
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
+import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 import psk.project.FileRepository.file.entity.File;
 
 import javax.persistence.*;

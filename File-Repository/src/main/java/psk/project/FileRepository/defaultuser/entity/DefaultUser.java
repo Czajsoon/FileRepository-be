@@ -1,13 +1,13 @@
-package psk.project.FileRepository.defaultUser.entity;
+package psk.project.FileRepository.defaultuser.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
-import psk.project.FileRepository.defaultUser.entity.models.DefaultUserDTO;
+import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.payment.entity.Payment;
 import psk.project.FileRepository.plan.entity.Plan;
-import psk.project.FileRepository.sharedFile.entity.SharedFile;
+import psk.project.FileRepository.sharedfile.entity.SharedFile;
 
 import javax.persistence.*;
 import java.math.BigInteger;

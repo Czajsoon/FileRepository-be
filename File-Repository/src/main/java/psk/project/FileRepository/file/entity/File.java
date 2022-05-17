@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
+import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.sharedFile.entity.SharedFile;
+import psk.project.FileRepository.sharedfile.entity.SharedFile;
 
 import javax.persistence.*;
 import java.math.BigInteger;

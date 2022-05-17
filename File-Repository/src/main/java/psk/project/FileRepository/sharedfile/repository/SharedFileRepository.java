@@ -1,8 +1,8 @@
-package psk.project.FileRepository.sharedFile.repository;
+package psk.project.FileRepository.sharedfile.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import psk.project.FileRepository.sharedFile.entity.SharedFile;
+import psk.project.FileRepository.sharedfile.entity.SharedFile;
 
 
 @Repository

@@ -2,7 +2,7 @@ package psk.project.FileRepository.payment.entity;
 
 
 import lombok.Data;
-import psk.project.FileRepository.defaultUser.entity.DefaultUser;
+import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.status.entity.Status;
 

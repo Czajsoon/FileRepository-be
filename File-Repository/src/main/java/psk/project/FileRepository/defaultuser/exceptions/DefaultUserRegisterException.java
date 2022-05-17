@@ -1,4 +1,4 @@
-package psk.project.FileRepository.defaultUser.exceptions;
+package psk.project.FileRepository.defaultuser.exceptions;
 
 public class DefaultUserRegisterException extends RuntimeException{
 
