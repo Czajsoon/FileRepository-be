@@ -25,4 +25,9 @@ public class DefaultUserAuthorizeController {
     public DefautUserLoginResponse login(@RequestBody DefaultUserLoginDTO loginDTO) {
         return defaultUserFacade.login(loginDTO);
     }
+
+    @PostMapping("/facebookAuth")
+    public DefaultFacebookUserResponse facebookLogin(@RequestBody DefaultFacebookUserDTO defaultFacebookUserDTO){
+        return defaultUserAuthorizeService.facebookAuth(defaultFacebookUserDTO);
+    }
 }
