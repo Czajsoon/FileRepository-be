@@ -15,4 +15,8 @@ public final class StringOperationUtils {
         extention.reverse();
         return extention.toString();
     }
+
+    public static String getDefaultPhotoLink(){
+        return System.getProperty("user.dir") + "/photos/defaultPhoto.png";
+    }
 }

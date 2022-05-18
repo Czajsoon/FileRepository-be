@@ -76,6 +76,7 @@ public class DefaultUser {
         DefaultUser user = new DefaultUser();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
+        user.setPhotoLink(dto.getPhotoLink());
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());

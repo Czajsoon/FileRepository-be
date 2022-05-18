@@ -31,7 +31,7 @@ public class FileController {
     }
 
     @PostMapping("/{user}")
-    public void postFile(
+    public void uploadFile(
             @PathVariable String user,
             @RequestParam MultipartFile file,
             @RequestParam(required = false) String description,

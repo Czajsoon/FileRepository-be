@@ -13,6 +13,8 @@ import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.plan.repository.PlanRepository;
 
 import static psk.project.FileRepository.plan.models.PlanIds.NORMAL;
+import static psk.project.FileRepository.utils.PasswordHash.hashPassword;
+import static psk.project.FileRepository.utils.StringOperationUtils.getDefaultPhotoLink;
 
 
 @Service
@@ -37,10 +39,11 @@ public class DefaultUserAuthorizeService {
         validateUserWithLogin(defaultUserDTO.getLogin());
         defaultUserRepository.save(DefaultUser.of(DefaultUserDTO.builder()
                 .name(defaultUserDTO.getName())
+                .photoLink(getDefaultPhotoLink())
                 .surname(defaultUserDTO.getSurname())
                 .email(defaultUserDTO.getEmail())
                 .login(defaultUserDTO.getLogin())
-                .password(defaultUserDTO.getPassword())
+                .password(hashPassword(defaultUserDTO.getPassword()))
                 .build(), plan));
     }
 

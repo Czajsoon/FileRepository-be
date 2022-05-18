@@ -15,5 +15,6 @@ public class DefaultUserDTO {
     private String login;
     private String password;
     private String email;
+    private String photoLink;
     private BigInteger transfer;
 }
