@@ -3,6 +3,7 @@ package psk.project.FileRepository.defaultuser.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import psk.project.FileRepository.defaultuser.entity.models.DefaultFacebookUserDTO;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.payment.entity.Payment;
@@ -45,6 +46,9 @@ public class DefaultUser {
     @Column
     private BigInteger transferUsage;
 
+    @Column
+    private String facebookId;
+
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "planID")
@@ -81,6 +85,17 @@ public class DefaultUser {
         user.setEmail(dto.getEmail());
         user.setPlan(plan);
         user.setTransferUsage(BigInteger.ZERO);
+        return user;
+    }
+
+    public static DefaultUser of(DefaultFacebookUserDTO dto, Plan plan){
+        DefaultUser user = new DefaultUser();
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setEmail(dto.getEmail());
+        user.setTransferUsage(BigInteger.ZERO);
+        user.setFacebookId(dto.getFacebookId());
+        user.setPlan(plan);
         return user;
     }
 }

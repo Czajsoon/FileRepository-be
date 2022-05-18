@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
-import psk.project.FileRepository.defaultuser.entity.models.DefautUserLoginResponse;
-import psk.project.FileRepository.defaultuser.entity.models.DefaultUserLoginDTO;
+import psk.project.FileRepository.defaultuser.entity.models.*;
 import psk.project.FileRepository.defaultuser.services.DefaultUserAuthorizeService;
 
 @RestController
@@ -24,5 +22,10 @@ public class DefaultUserAuthorizeController {
     @PostMapping("/login")
     public DefautUserLoginResponse login(@RequestBody DefaultUserLoginDTO loginDTO) {
         return defaultUserAuthorizeService.login(loginDTO);
+    }
+
+    @PostMapping("/facebookAuth")
+    public DefaultFacebookUserResponse facebookLogin(@RequestBody DefaultFacebookUserDTO defaultFacebookUserDTO){
+        return defaultUserAuthorizeService.facebookAuth(defaultFacebookUserDTO);
     }
 }
