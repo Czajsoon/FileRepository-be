@@ -6,9 +6,7 @@ import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundException;
 import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
-import psk.project.FileRepository.file.exceptions.FileChangeDirectoryException;
-import psk.project.FileRepository.file.exceptions.FileChangeNameException;
-import psk.project.FileRepository.file.exceptions.FileExistsOnDirectoryException;
+import psk.project.FileRepository.file.exceptions.*;
 import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.file.models.FileResponse;
 import psk.project.FileRepository.file.models.FileSearchCommand;
@@ -16,6 +14,7 @@ import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -126,5 +125,14 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
         userRepository.save(user);
     }
 
+    public Optional<byte[]> getInputFileStream(String fileId){
+        try {
+            return Optional.of(Files.newInputStream(Path.of(getTotalPathFile(fileId))).readAllBytes());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
 
 }

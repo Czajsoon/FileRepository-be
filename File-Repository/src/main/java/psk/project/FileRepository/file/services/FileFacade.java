@@ -48,6 +48,10 @@ public class FileFacade {
         fileIds.forEach(this::deleteFile);
     }
 
+    public byte[] filePreview(String fileId){
+        return responseFileService.getFilePreview(fileId);
+    }
+
     public Map<String, Object> getAllUserFiles(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
         return responseFileService.getUserFiles(userId, searchCommand, pageCommand);
     }

@@ -2,6 +2,7 @@ package psk.project.FileRepository.file.client;
 
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,11 @@ public class FileController {
     @GetMapping("/{fileId}")
     public FileResponse getFile(@PathVariable String fileId) {
         return fileFacade.getFileInfoById(fileId);
+    }
+
+    @GetMapping(value = "/preview/{fileId}", produces = MediaType.ALL_VALUE)
+    public byte[] filePreview(@PathVariable String fileId){
+        return fileFacade.filePreview(fileId);
     }
 
     @GetMapping("/download/{file}")
