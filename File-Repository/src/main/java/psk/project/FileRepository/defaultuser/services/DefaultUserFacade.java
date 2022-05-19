@@ -6,22 +6,29 @@ import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserEditCommand;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserLoginDTO;
 import psk.project.FileRepository.defaultuser.entity.models.DefautUserLoginResponse;
+import psk.project.FileRepository.defaultuser.exceptions.DefaultUserImageNotFoundException;
 
 @Service
 @AllArgsConstructor
 public class DefaultUserFacade {
-    public final DefaultUserAuthorizeService defaultUserAuthorizeService;
-    public final DefaultUserEditService defaultUserEditService;
+    public final DefaultUserAuthorizeService authorizeService;
+    public final DefaultUserEditService editService;
+    public final DefaultUserResponseService responseService;
 
     public void register(DefaultUserDTO defaultUserDTO){
-        defaultUserAuthorizeService.register(defaultUserDTO);
+        authorizeService.register(defaultUserDTO);
+    }
+
+    public byte[] getUserImage(String userId){
+        return responseService.getImage(userId)
+            .orElseThrow(DefaultUserImageNotFoundException::new);
     }
 
     public DefautUserLoginResponse login(DefaultUserLoginDTO loginDTO){
-        return defaultUserAuthorizeService.login(loginDTO);
+        return authorizeService.login(loginDTO);
     }
 
     public void edit(DefaultUserEditCommand command){
-        defaultUserEditService.edit(command);
+        editService.edit(command);
     }
 }

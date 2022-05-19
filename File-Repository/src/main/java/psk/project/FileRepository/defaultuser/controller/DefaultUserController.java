@@ -10,6 +10,9 @@ import psk.project.FileRepository.defaultuser.services.DefaultUserFacade;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("http://localhost:4200")
@@ -23,10 +26,15 @@ public class DefaultUserController {
         return userRepository.findAll();
     }
 
+    @GetMapping(value = "/img/{userId}",produces = { IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE })
+    public byte[] getImage(@PathVariable String userId){
+        return defaultUserFacade.getUserImage(userId);
+    }
+
     @PatchMapping
     public void edit(
-            @RequestParam(required = false) MultipartFile file,
             @RequestParam String id,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam(required = false) String login,
             @RequestParam(required = false) String password,
             @RequestParam(required = false) String name,
