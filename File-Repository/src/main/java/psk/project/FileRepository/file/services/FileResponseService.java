@@ -7,8 +7,8 @@ import psk.project.FileRepository.file.dao.FileDAO;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileErrorInputStreamException;
 import psk.project.FileRepository.file.exceptions.FileNotFoundException;
-import psk.project.FileRepository.file.models.FileResponse;
-import psk.project.FileRepository.file.models.FileSearchCommand;
+import psk.project.FileRepository.file.entity.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.util.List;

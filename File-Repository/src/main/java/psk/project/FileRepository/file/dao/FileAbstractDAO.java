@@ -14,9 +14,9 @@ import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileNotSavedException;
 import psk.project.FileRepository.file.exceptions.FileTransferNotPossibleException;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
-import psk.project.FileRepository.file.models.FileSearchCommand;
+import psk.project.FileRepository.file.entity.models.FileDTO;
+import psk.project.FileRepository.file.entity.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
@@ -162,8 +162,8 @@ abstract class FileAbstractDAO {
         File file = fileRepository.findById(UUID.fromString(fileId))
                 .orElseThrow(NoSuchElementException::new);
         if (file.getPath().equals(ROOT_FOLDER_NAME))
-            return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getFileName();
-        return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getPath() + "/" + file.getFileName();
+            return rootPath + "/" + file.getOwner().getDefaultUserID().toString() + "/" + file.getFileName();
+        return rootPath + "/" + file.getOwner().getDefaultUserID().toString() + "/" + file.getPath() + "/" + file.getFileName();
     }
 
     protected Page<File> getAllUserFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {

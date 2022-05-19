@@ -7,14 +7,13 @@ import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundExce
 import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.*;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
-import psk.project.FileRepository.file.models.FileSearchCommand;
+import psk.project.FileRepository.file.entity.models.FileDTO;
+import psk.project.FileRepository.file.entity.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,11 +66,11 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
 
     @Override
     public void changePathFile(File file, String path) {
-        String user = file.getDefaultUser().getDefaultUserID().toString();
+        String user = file.getOwner().getDefaultUserID().toString();
         Path filePath = createDirectoryPath(path, user);
         Path source = Path.of(createDirectoryPath(file.getPath(), user) + "/" + file.getFileName());
         createDirectoriesIfNotExists(filePath);
-        if (fileExistsOnDirectory(path, file.getDefaultUser().getDefaultUserID().toString(), file.getFileName()))
+        if (fileExistsOnDirectory(path, file.getOwner().getDefaultUserID().toString(), file.getFileName()))
             throw new FileExistsOnDirectoryException(file.getFileName());
         try {
             Files.move(
@@ -88,7 +87,7 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
 
     @Override
     public void changeFileName(File file, String fileName) {
-        Path source = createDirectoryPath(file.getPath(), file.getDefaultUser().getDefaultUserID().toString());
+        Path source = createDirectoryPath(file.getPath(), file.getOwner().getDefaultUserID().toString());
         Path sourcePath = Path.of(source + "/" + file.getFileName());
         String newFilename = buildFileNameWithExtention(file.getFileName(), fileName);
         try {
@@ -118,8 +117,8 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
         //dopisane na szybkosci
 
         DefaultUser user = userRepository
-                .findById(file.getDefaultUser().getDefaultUserID())
-                .orElseThrow(() -> new DefaultUserNotFoundException(file.getDefaultUser().getDefaultUserID().toString()));
+                .findById(file.getOwner().getDefaultUserID())
+                .orElseThrow(() -> new DefaultUserNotFoundException(file.getOwner().getDefaultUserID().toString()));
 
         user.setTransferUsage(user.getTransferUsage().subtract(file.getSize()));
         userRepository.save(user);

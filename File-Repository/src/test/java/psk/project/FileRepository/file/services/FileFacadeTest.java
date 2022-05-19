@@ -1,14 +1,6 @@
 package psk.project.FileRepository.file.services;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletResponse;
-import psk.project.FileRepository.file.models.FileDTO;
 import psk.project.FileRepository.IntegrationAbstractTest;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
 
 class FileFacadeTest extends IntegrationAbstractTest {
 //    private final UploadFileService uploadFileService;

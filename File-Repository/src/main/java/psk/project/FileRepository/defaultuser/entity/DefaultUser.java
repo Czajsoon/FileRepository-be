@@ -12,6 +12,7 @@ import psk.project.FileRepository.sharedfile.entity.SharedFile;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,46 +25,32 @@ public class DefaultUser {
     @GeneratedValue(generator = "UUID")
     @Column(name = "ID", updatable = false, nullable = false, unique = true)
     private UUID defaultUserID;
+    @Column private String name;
+    @Column private String surname;
+    @Column private String login;
+    @Column private String photoLink;
+    @Column private String shareLink;
+    @Column private String password;
+    @Column private String email;
+    @Column private BigInteger transferUsage;
+    @Column private String facebookId;
 
-    @Column
-    private String name;
-
-    @Column
-    private String surname;
-
-    @Column
-    private String login;
-
-    @Column
-    private String photoLink;
-
-    @Column
-    private String password;
-
-    @Column
-    private String email;
-
-    @Column
-    private BigInteger transferUsage;
-
-    @Column
-    private String facebookId;
-
-
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "planID")
-    @JsonManagedReference
+    @ManyToOne(fetch=FetchType.EAGER) @JoinColumn(name = "planID") @JsonManagedReference
     private Plan plan;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
     @JsonManagedReference
-    private List<File> files;
+    private List<File> files = new ArrayList<>();
 
     @OneToMany(fetch= FetchType.LAZY,mappedBy = "defaultUser")
-    private List<Payment> payments;
+    private List<Payment> payments = new ArrayList<>();
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "defaultUser")
-    private List<SharedFile> sharedFiles;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
+    @JsonManagedReference
+    private List<File> accessibleFiles = new ArrayList<>();
+
+//    @OneToMany(fetch=FetchType.LAZY, mappedBy = "defaultUser")
+//    private List<SharedFile> sharedFiles;
 
     public static DefaultUser of(DefaultUserDTO dto){
         DefaultUser user = new DefaultUser();
@@ -72,6 +59,7 @@ public class DefaultUser {
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
+        user.setShareLink("share/" + UUID.randomUUID());
         user.setTransferUsage(dto.getTransfer());
         return user;
     }
@@ -84,6 +72,7 @@ public class DefaultUser {
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
+        user.setShareLink("share/" + UUID.randomUUID());
         user.setPlan(plan);
         user.setTransferUsage(BigInteger.ZERO);
         return user;
@@ -96,6 +85,7 @@ public class DefaultUser {
         user.setEmail(dto.getEmail());
         user.setTransferUsage(BigInteger.ZERO);
         user.setFacebookId(dto.getFacebookId());
+        user.setShareLink("share/" + UUID.randomUUID());
         user.setPlan(plan);
         return user;
     }

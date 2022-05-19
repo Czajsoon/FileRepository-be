@@ -1,4 +1,4 @@
-package psk.project.FileRepository.file.models;
+package psk.project.FileRepository.file.entity.models;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class FileResponse {
                 .description(description)
                 .size(file.getSize())
                 .fileFormat(file.getFileFormat())
-                .ownerId(file.getDefaultUser()
+                .ownerId(file.getOwner()
                         .getDefaultUserID()
                         .toString())
                 .fileTotalPath(System.getProperty("user.dir") + "/server/" + file.getTotalPath())

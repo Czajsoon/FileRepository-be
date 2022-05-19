@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,5 +17,5 @@ public interface DefaultUserRepository extends JpaRepository<DefaultUser, UUID> 
 
     Optional<DefaultUser> findDefaultUserByFacebookId(String facebookId);
 
-
+    Optional<DefaultUser> findDefaultUserByShareLink(String shareLink);
 }
