@@ -9,6 +9,7 @@ import psk.project.FileRepository.defaultuser.exceptions.DefaultUserWrongAuthori
 import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.plan.repository.PlanRepository;
+import psk.project.FileRepository.utils.PasswordHash;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class DefaultUserAuthorizeService {
 
     public DefautUserLoginResponse login(DefaultUserLoginDTO loginDTO) {
         DefaultUser defaultUser = defaultUserRepository
-                .findDefaultUserByLoginAndPassword(loginDTO.getLogin(), loginDTO.getPassword())
+                .findDefaultUserByLoginAndPassword(loginDTO.getLogin(), PasswordHash.hashPassword(loginDTO.getPassword()))
                 .stream().findFirst()
                 .orElseThrow(DefaultUserWrongAuthorizationDataException::new);
 
