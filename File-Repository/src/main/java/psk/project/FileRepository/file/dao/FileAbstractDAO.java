@@ -162,8 +162,8 @@ abstract class FileAbstractDAO {
         File file = fileRepository.findById(UUID.fromString(fileId))
                 .orElseThrow(NoSuchElementException::new);
         if (file.getPath().equals(ROOT_FOLDER_NAME))
-            return rootPath + "/" + file.getOwner().getDefaultUserID().toString() + "/" + file.getFileName();
-        return rootPath + "/" + file.getOwner().getDefaultUserID().toString() + "/" + file.getPath() + "/" + file.getFileName();
+            return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getFileName();
+        return rootPath + "/" + file.getDefaultUser().getDefaultUserID().toString() + "/" + file.getPath() + "/" + file.getFileName();
     }
 
     protected Page<File> getAllUserFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {

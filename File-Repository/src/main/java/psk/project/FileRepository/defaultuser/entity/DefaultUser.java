@@ -8,7 +8,6 @@ import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.payment.entity.Payment;
 import psk.project.FileRepository.plan.entity.Plan;
-import psk.project.FileRepository.sharedfile.entity.SharedFile;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -34,23 +33,17 @@ public class DefaultUser {
     @Column private String email;
     @Column private BigInteger transferUsage;
     @Column private String facebookId;
+    private static final String SHARE_PREFIX = "share.";
 
     @ManyToOne(fetch=FetchType.EAGER) @JoinColumn(name = "planID") @JsonManagedReference
     private Plan plan;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
     @JsonManagedReference
     private List<File> files = new ArrayList<>();
-
-    @OneToMany(fetch= FetchType.LAZY,mappedBy = "defaultUser")
+    @OneToMany(fetch= FetchType.LAZY)
     private List<Payment> payments = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
-    @JsonManagedReference
+    @ManyToMany(mappedBy = "defaultUsers") @JsonManagedReference
     private List<File> accessibleFiles = new ArrayList<>();
-
-//    @OneToMany(fetch=FetchType.LAZY, mappedBy = "defaultUser")
-//    private List<SharedFile> sharedFiles;
 
     public static DefaultUser of(DefaultUserDTO dto){
         DefaultUser user = new DefaultUser();
@@ -59,7 +52,7 @@ public class DefaultUser {
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
-        user.setShareLink("share/" + UUID.randomUUID());
+        user.setShareLink(SHARE_PREFIX + UUID.randomUUID());
         user.setTransferUsage(dto.getTransfer());
         return user;
     }
@@ -72,7 +65,7 @@ public class DefaultUser {
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
-        user.setShareLink("share/" + UUID.randomUUID());
+        user.setShareLink(SHARE_PREFIX + UUID.randomUUID());
         user.setPlan(plan);
         user.setTransferUsage(BigInteger.ZERO);
         return user;
@@ -85,7 +78,7 @@ public class DefaultUser {
         user.setEmail(dto.getEmail());
         user.setTransferUsage(BigInteger.ZERO);
         user.setFacebookId(dto.getFacebookId());
-        user.setShareLink("share/" + UUID.randomUUID());
+        user.setShareLink(SHARE_PREFIX + UUID.randomUUID());
         user.setPlan(plan);
         return user;
     }

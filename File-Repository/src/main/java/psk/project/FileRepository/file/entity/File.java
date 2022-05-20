@@ -33,14 +33,19 @@ public class File {
   @Column private Boolean shared;
   @Column @JsonIgnore private String comment;
   @Column @JsonIgnore private String totalPath;
-  @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "defaultUserID") @JsonBackReference
-  private DefaultUser owner;
-  @OneToMany(fetch = FetchType.LAZY) @JsonManagedReference
-  private List<DefaultUser> accessUsers = new ArrayList<>();
+  @ManyToOne(fetch = FetchType.EAGER) @JsonBackReference
+  private DefaultUser defaultUser;
+  @JsonBackReference
+  @ManyToMany
+  @JoinTable(
+      name = "access_users",
+      joinColumns = @JoinColumn(name = "file_id"),
+      inverseJoinColumns = @JoinColumn(name = "user_id"))
+  private List<DefaultUser> defaultUsers = new ArrayList<>();
 
   public static File of(FileDTO fileDTO, DefaultUser user) {
     File file = new File();
-    file.setOwner(user);
+    file.setDefaultUser(user);
     file.setSize(fileDTO.getSize());
     file.setPath(fileDTO.getPath());
     file.setPureFileName(fileDTO.getPureFileName());

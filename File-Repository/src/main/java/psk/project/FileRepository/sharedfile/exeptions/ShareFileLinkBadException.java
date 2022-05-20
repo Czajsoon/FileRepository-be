@@ -1,7 +1,7 @@
 package psk.project.FileRepository.sharedfile.exeptions;
 
-public class ShareLinkBadException extends RuntimeException{
-  public ShareLinkBadException(){
+public class ShareFileLinkBadException extends RuntimeException{
+  public ShareFileLinkBadException(){
     super("Nie znaleziono takiego linku udostępniania!");
   }
 }

@@ -35,7 +35,7 @@ public class FileResponse {
                 .description(description)
                 .size(file.getSize())
                 .fileFormat(file.getFileFormat())
-                .ownerId(file.getOwner()
+                .ownerId(file.getDefaultUser()
                         .getDefaultUserID()
                         .toString())
                 .fileTotalPath(System.getProperty("user.dir") + "/server/" + file.getTotalPath())

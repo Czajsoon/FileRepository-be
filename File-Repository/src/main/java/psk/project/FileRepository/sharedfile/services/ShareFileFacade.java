@@ -8,4 +8,7 @@ import org.springframework.stereotype.Service;
 public class ShareFileFacade {
   private final ShareFileService shareFileService;
 
+  public void shareFileForUser(String userShareLink, String fileId) {
+    shareFileService.shareFile(userShareLink, fileId);
+  }
 }
