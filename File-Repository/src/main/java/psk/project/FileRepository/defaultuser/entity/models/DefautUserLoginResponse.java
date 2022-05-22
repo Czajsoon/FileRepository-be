@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 
+import java.math.BigInteger;
 import java.util.UUID;
 
 @Getter
@@ -19,6 +20,7 @@ public class DefautUserLoginResponse {
     private String login;
     private String email;
     private String shareLink;
+    private BigInteger transferUsage;
 
     public static DefautUserLoginResponse of(DefaultUser defaultUser){
         return DefautUserLoginResponse.builder()
@@ -28,6 +30,7 @@ public class DefautUserLoginResponse {
                 .login(defaultUser.getLogin())
                 .email(defaultUser.getEmail())
                 .shareLink(defaultUser.getShareLink())
+                .transferUsage(defaultUser.getTransferUsage())
                 .build();
     }
 
