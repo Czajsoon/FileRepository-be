@@ -175,7 +175,12 @@ abstract class FileAbstractDAO {
     private Page<File> filterFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
         if (searchCommand == null)
             return getFilesWithSharedFiles(user, null, pageCommand);
-        if (searchCommand.isShared()) {
+        if(searchCommand.getOnlyMyFiles() != null){
+            if(searchCommand.getOnlyMyFiles())
+                return getOnlyUserFiles(user, searchCommand, pageCommand);
+            else return getOnlySharedFiles(user, searchCommand, pageCommand);
+        }
+        if (searchCommand.isWithSharedFiles()) {
             return getFilesWithSharedFiles(user, searchCommand, pageCommand);
         }
         return getOnlyUserFiles(user, searchCommand, pageCommand);
@@ -183,6 +188,12 @@ abstract class FileAbstractDAO {
 
     private Page<File> getOnlyUserFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
         return fileRepository.findAll(specificationFactory(user, searchCommand), PageRequest.of(pageCommand.getPage(), pageCommand.getSize()));
+    }
+
+    private Page<File> getOnlySharedFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand){
+        List<UUID> uuids = user.getAccessibleFiles().stream().map(File::getFileId).toList();
+        List<File> accessibleFiles = fileRepository.findAll(specificationFactory(uuids, searchCommand));
+        return new PageImpl<>(accessibleFiles, PageRequest.of(pageCommand.getPage(), pageCommand.getSize()), accessibleFiles.size());
     }
 
     private Page<File> getFilesWithSharedFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
@@ -203,6 +214,7 @@ abstract class FileAbstractDAO {
         FileSearchBuilder fileSearchBuilder = new FileSearchBuilder();
         if (!fileIds.isEmpty()) fileIds.forEach(fileId -> fileSearchBuilder.with("fileId", ":", fileId));
         if (command == null) return fileSearchBuilder;
+
         if (command.getFileFormat() != null) {
             fileSearchBuilder.with(command.getNameFileFormat(), ":", command.getFileFormat().toUpperCase());
         }
@@ -229,6 +241,9 @@ abstract class FileAbstractDAO {
         FileSearchBuilder fileSearchBuilder = new FileSearchBuilder();
         fileSearchBuilder.with("defaultUser", ":", user);
         if (command == null) return fileSearchBuilder;
+        if(command.getShared() != null){
+            fileSearchBuilder.with(command.getNameShared(),":",command.getShared());
+        }
         if (command.getFileFormat() != null) {
             fileSearchBuilder.with(command.getNameFileFormat(), ":", command.getFileFormat().toUpperCase());
         }

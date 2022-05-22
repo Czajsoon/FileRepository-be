@@ -22,7 +22,7 @@ public class DefaultUserAuthorizeController {
     }
 
     @PostMapping("/login")
-    public DefautUserLoginResponse login(@RequestBody DefaultUserLoginDTO loginDTO) {
+    public DefaultUserLoginResponse login(@RequestBody DefaultUserLoginDTO loginDTO) {
         return defaultUserFacade.login(loginDTO);
     }
 

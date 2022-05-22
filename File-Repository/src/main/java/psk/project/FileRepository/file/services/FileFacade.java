@@ -28,8 +28,8 @@ public class FileFacade {
         uploadFileService.uploadFile(fileDTO);
     }
 
-    public FileResponse getFileInfoById(String id) {
-        return responseFileService.getFileInfoById(id);
+    public FileResponse getFileInfoById(String id,String userId) {
+        return responseFileService.getFileInfoById(id,userId);
     }
 
     public ResponseEntity<Resource> downloadFile(String id) {

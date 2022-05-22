@@ -21,9 +21,9 @@ import java.util.UUID;
 public class FileController {
     private final FileFacade fileFacade;
 
-    @GetMapping("/{fileId}")
-    public FileResponse getFile(@PathVariable String fileId) {
-        return fileFacade.getFileInfoById(fileId);
+    @GetMapping("/{fileId}/{userId}")
+    public FileResponse getFile(@PathVariable String fileId,@PathVariable String userId) {
+        return fileFacade.getFileInfoById(fileId,userId);
     }
 
     @GetMapping(value = "/preview/{fileId}", produces = MediaType.ALL_VALUE)

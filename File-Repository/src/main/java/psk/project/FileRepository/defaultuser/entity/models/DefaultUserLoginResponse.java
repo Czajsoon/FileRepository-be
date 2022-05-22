@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class DefautUserLoginResponse {
+public class DefaultUserLoginResponse {
 
     private UUID id;
     private String name;
@@ -24,12 +24,14 @@ public class DefautUserLoginResponse {
     private PlanDTO planDTO;
 
     @Builder
+    @Getter
+    @Setter
     static class PlanDTO{
         private String name;
     }
 
-    public static DefautUserLoginResponse of(DefaultUser defaultUser){
-        return DefautUserLoginResponse.builder()
+    public static DefaultUserLoginResponse of(DefaultUser defaultUser){
+        return DefaultUserLoginResponse.builder()
                 .id(defaultUser.getDefaultUserID())
                 .name(defaultUser.getName())
                 .surname(defaultUser.getSurname())

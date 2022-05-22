@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserEditCommand;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserLoginDTO;
-import psk.project.FileRepository.defaultuser.entity.models.DefautUserLoginResponse;
+import psk.project.FileRepository.defaultuser.entity.models.DefaultUserLoginResponse;
 import psk.project.FileRepository.defaultuser.exceptions.DefaultUserImageNotFoundException;
 
 @Service
@@ -25,7 +25,7 @@ public class DefaultUserFacade {
             .orElseThrow(DefaultUserImageNotFoundException::new);
     }
 
-    public DefautUserLoginResponse login(DefaultUserLoginDTO loginDTO){
+    public DefaultUserLoginResponse login(DefaultUserLoginDTO loginDTO){
         return authorizeService.login(loginDTO);
     }
 

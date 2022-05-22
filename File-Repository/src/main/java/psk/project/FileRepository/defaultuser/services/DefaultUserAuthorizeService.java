@@ -24,13 +24,13 @@ public class DefaultUserAuthorizeService {
     private final DefaultUserRepository defaultUserRepository;
     private final PlanRepository planRepository;
 
-    public DefautUserLoginResponse login(DefaultUserLoginDTO loginDTO) {
+    public DefaultUserLoginResponse login(DefaultUserLoginDTO loginDTO) {
         DefaultUser defaultUser = defaultUserRepository
                 .findDefaultUserByLoginAndPassword(loginDTO.getLogin(), PasswordHash.hashPassword(loginDTO.getPassword()))
                 .stream().findFirst()
                 .orElseThrow(DefaultUserWrongAuthorizationDataException::new);
 
-        return DefautUserLoginResponse.of(defaultUser);
+        return DefaultUserLoginResponse.of(defaultUser);
     }
 
     public void register(DefaultUserDTO defaultUserDTO) {
@@ -60,12 +60,7 @@ public class DefaultUserAuthorizeService {
 
 
     private boolean validateUserWithFacebookId(String facebookId){
-        if(defaultUserRepository.findDefaultUserByFacebookId(facebookId).isPresent()) {
-            return true;
-        }
-        else{
-            return false;
-        }
+        return defaultUserRepository.findDefaultUserByFacebookId(facebookId).isPresent();
     }
     private void facebookRegister(DefaultFacebookUserDTO defaultFacebookUserDTO){
         Plan plan = planRepository.findById(NORMAL.getValue())

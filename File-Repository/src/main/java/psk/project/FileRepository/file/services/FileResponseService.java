@@ -13,7 +13,6 @@ import psk.project.FileRepository.models.PageCommand;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,11 +20,10 @@ class FileResponseService {
 
     private final FileDAO fileDAO;
 
-    public FileResponse getFileInfoById(String id) {
-        Optional<File> file = fileDAO.get(id);
-        if (file.isPresent())
-            return FileResponse.of(file.get());
-        throw new FileNotFoundException(id);
+    public FileResponse getFileInfoById(String id, String userId) {
+        File file = fileDAO.get(id).orElseThrow(() -> new FileNotFoundException(id));
+        return FileResponse.of(file, userId);
+
     }
 
     public byte[] getFilePreview(String fileId) {
