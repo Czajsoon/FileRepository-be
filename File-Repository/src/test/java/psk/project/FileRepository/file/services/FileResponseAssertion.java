@@ -1,7 +1,7 @@
 package psk.project.FileRepository.file.services;
 
 import org.assertj.core.api.AbstractAssert;
-import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileResponse;
 
 public class FileResponseAssertion extends AbstractAssert<FileResponseAssertion, FileResponse> {
 

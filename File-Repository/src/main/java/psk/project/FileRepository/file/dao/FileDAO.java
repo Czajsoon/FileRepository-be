@@ -7,14 +7,13 @@ import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundExce
 import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.*;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
-import psk.project.FileRepository.file.models.FileSearchCommand;
+import psk.project.FileRepository.file.entity.models.FileDTO;
+import psk.project.FileRepository.file.entity.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,6 +44,7 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
     public Page<File> getAllByUser(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
         DefaultUser user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new DefaultUserNotFoundException(userId));
+
         return getAllUserFiles(user, searchCommand, pageCommand);
     }
 
@@ -107,7 +107,7 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
 
     @Override
     public void deleteFile(File file) {
-        String totalPathFile = getTotalPathFile(file.getFileID().toString());
+        String totalPathFile = getTotalPathFile(file.getFileId().toString());
         try {
             Files.delete(Path.of(totalPathFile));
         } catch (IOException e) {

@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
@@ -12,11 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.defaultuser.entity.DefaultUser;
 import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.file.entity.File;
+import psk.project.FileRepository.file.entity.models.FileDTO;
+import psk.project.FileRepository.file.entity.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
 import psk.project.FileRepository.file.exceptions.FileNotSavedException;
 import psk.project.FileRepository.file.exceptions.FileTransferNotPossibleException;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
-import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
 import psk.project.FileRepository.models.PageCommand;
 
@@ -27,6 +28,7 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static psk.project.FileRepository.utils.StringOperationUtils.getFileExtention;
@@ -51,8 +53,8 @@ abstract class FileAbstractDAO {
                 .toList();
     }
 
-    public File saveInRepository(FileDTO fileDTO,DefaultUser user) {
-        updateTransferUser(user,fileDTO.getSize());
+    public File saveInRepository(FileDTO fileDTO, DefaultUser user) {
+        updateTransferUser(user, fileDTO.getSize());
         fileDTO.setTotalPath(fileDTO.getPath().substring(rootPath.length()));
         fileDTO.setPath(setFilePath(fileDTO.getAdditionalPath()));
         StringBuilder fileExtension = new StringBuilder(getFileExtention(Objects.requireNonNull(fileDTO.getFile().getOriginalFilename())));
@@ -61,13 +63,13 @@ abstract class FileAbstractDAO {
         return fileRepository.save(File.of(fileDTO, user));
     }
 
-    protected void checkTransferIsPossible(DefaultUser user, BigInteger size){
-        if (user.getPlan().getCapacity().compareTo(user.getTransferUsage().add(size)) < 0){
+    protected void checkTransferIsPossible(DefaultUser user, BigInteger size) {
+        if (user.getPlan().getCapacity().compareTo(user.getTransferUsage().add(size)) < 0) {
             throw new FileTransferNotPossibleException();
         }
     }
 
-    private void updateTransferUser(DefaultUser user,BigInteger fileSize){
+    private void updateTransferUser(DefaultUser user, BigInteger fileSize) {
         //todo error when transfer is not possible
         user.setTransferUsage(user.getTransferUsage().add(fileSize));
         userRepository.save(user);
@@ -167,7 +169,56 @@ abstract class FileAbstractDAO {
     }
 
     protected Page<File> getAllUserFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
+        return filterFiles(user, searchCommand, pageCommand);
+    }
+
+    private Page<File> filterFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
+        if (searchCommand == null)
+            return getFilesWithSharedFiles(user, null, pageCommand);
+        if (searchCommand.isShared()) {
+            return getFilesWithSharedFiles(user, searchCommand, pageCommand);
+        }
+        return getOnlyUserFiles(user, searchCommand, pageCommand);
+    }
+
+    private Page<File> getOnlyUserFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
         return fileRepository.findAll(specificationFactory(user, searchCommand), PageRequest.of(pageCommand.getPage(), pageCommand.getSize()));
+    }
+
+    private Page<File> getFilesWithSharedFiles(DefaultUser user, FileSearchCommand searchCommand, PageCommand pageCommand) {
+        List<UUID> uuids = user.getAccessibleFiles().stream().map(File::getFileId).toList();
+        List<File> accessibleFiles = new ArrayList<>();
+        if (!uuids.isEmpty())
+            accessibleFiles = fileRepository.findAll(specificationFactory(uuids, searchCommand));
+        Stream<File> userFileStream = fileRepository.findAll(specificationFactory(user, searchCommand)).stream();
+        List<File> fileList = Stream.concat(userFileStream, accessibleFiles.stream()).toList();
+        return new PageImpl<>(fileList, PageRequest.of(pageCommand.getPage(), pageCommand.getSize()), fileList.size());
+    }
+
+    private Specification<File> specificationFactory(List<UUID> fileIds, FileSearchCommand searchCommand) {
+        return Specification.where(buildSearchCriteriaList(fileIds, searchCommand).build());
+    }
+
+    private FileSearchBuilder buildSearchCriteriaList(List<UUID> fileIds, FileSearchCommand command) {
+        FileSearchBuilder fileSearchBuilder = new FileSearchBuilder();
+        if (!fileIds.isEmpty()) fileIds.forEach(fileId -> fileSearchBuilder.with("fileId", ":", fileId));
+        if (command == null) return fileSearchBuilder;
+        if (command.getFileFormat() != null) {
+            fileSearchBuilder.with(command.getNameFileFormat(), ":", command.getFileFormat().toUpperCase());
+        }
+        if (command.getFileName() != null) {
+            fileSearchBuilder.with(command.getNameFileName(), ":", command.getFileName());
+        }
+        if (getResultOfSearchCommandSizeCondition(command)) {
+            fileSearchBuilder.with(command.getNameSize(), command.getOperation(), command.getSize());
+        }
+        if (command.getPath() != null) {
+            fileSearchBuilder.with(command.getNamePath(), ":", command.getPath());
+        }
+        if (command.getDescription() != null) {
+            fileSearchBuilder.with(command.getNameDescription(), ":", command.getDescription());
+        }
+        return fileSearchBuilder;
     }
 
     private Specification<File> specificationFactory(DefaultUser user, FileSearchCommand searchCommand) {

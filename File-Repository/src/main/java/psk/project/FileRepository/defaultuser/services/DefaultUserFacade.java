@@ -2,6 +2,7 @@ package psk.project.FileRepository.defaultuser.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserDTO;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserEditCommand;
 import psk.project.FileRepository.defaultuser.entity.models.DefaultUserLoginDTO;
@@ -26,6 +27,10 @@ public class DefaultUserFacade {
 
     public DefautUserLoginResponse login(DefaultUserLoginDTO loginDTO){
         return authorizeService.login(loginDTO);
+    }
+
+    public void editPhoto(String userId, MultipartFile file){
+        editService.changePhoto(userId, file);
     }
 
     public void edit(DefaultUserEditCommand command){

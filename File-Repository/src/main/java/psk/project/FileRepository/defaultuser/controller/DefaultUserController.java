@@ -31,25 +31,16 @@ public class DefaultUserController {
         return defaultUserFacade.getUserImage(userId);
     }
 
-    @PatchMapping
-    public void edit(
-            @RequestParam String id,
-            @RequestParam(required = false) MultipartFile file,
-            @RequestParam(required = false) String login,
-            @RequestParam(required = false) String password,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String surname,
-            @RequestParam(required = false) String email
-    ) {
-        defaultUserFacade.edit(DefaultUserEditCommand.builder()
-                .id(id)
-                .file(file)
-                .login(login)
-                .password(password)
-                .name(name)
-                .surname(surname)
-                .email(email)
-                .build());
+    @PutMapping("/img/{userId}")
+    public void updatePhoto(
+            @PathVariable String userId,
+            @RequestParam MultipartFile photo
+    ){
+        defaultUserFacade.editPhoto(userId, photo);
     }
 
+    @PatchMapping
+    public void edit(@RequestBody DefaultUserEditCommand command) {
+        defaultUserFacade.edit(command);
+    }
 }

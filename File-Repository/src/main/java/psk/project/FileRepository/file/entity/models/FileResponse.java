@@ -1,4 +1,4 @@
-package psk.project.FileRepository.file.models;
+package psk.project.FileRepository.file.entity.models;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -42,7 +42,7 @@ public class FileResponse {
                 .path(path)
                 .fileName(file.getPureFileName())
                 .comment(file.getComment())
-                .fileId(file.getFileID().toString())
+                .fileId(file.getFileId().toString())
                 .build();
     }
 }

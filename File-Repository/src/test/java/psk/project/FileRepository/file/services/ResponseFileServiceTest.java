@@ -1,16 +1,6 @@
 package psk.project.FileRepository.file.services;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import psk.project.FileRepository.file.dao.FileDAO;
-import psk.project.FileRepository.file.exceptions.FileNotFoundException;
-import psk.project.FileRepository.file.models.FileResponse;
 import psk.project.FileRepository.IntegrationAbstractTest;
-
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-import static psk.project.FileRepository.file.services.FileResponseAssertion.assertThat;
 
 class ResponseFileServiceTest extends IntegrationAbstractTest {
 //
