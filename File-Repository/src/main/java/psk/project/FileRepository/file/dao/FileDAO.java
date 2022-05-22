@@ -44,6 +44,7 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
     public Page<File> getAllByUser(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {
         DefaultUser user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new DefaultUserNotFoundException(userId));
+
         return getAllUserFiles(user, searchCommand, pageCommand);
     }
 
@@ -106,7 +107,7 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
 
     @Override
     public void deleteFile(File file) {
-        String totalPathFile = getTotalPathFile(file.getFileID().toString());
+        String totalPathFile = getTotalPathFile(file.getFileId().toString());
         try {
             Files.delete(Path.of(totalPathFile));
         } catch (IOException e) {

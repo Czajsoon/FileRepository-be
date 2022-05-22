@@ -42,7 +42,7 @@ public class FileResponse {
                 .path(path)
                 .fileName(file.getPureFileName())
                 .comment(file.getComment())
-                .fileId(file.getFileID().toString())
+                .fileId(file.getFileId().toString())
                 .build();
     }
 }

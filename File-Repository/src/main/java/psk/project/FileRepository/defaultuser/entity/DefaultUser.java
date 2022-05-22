@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter
 @Setter
@@ -35,12 +37,12 @@ public class DefaultUser {
     @Column private String facebookId;
     private static final String SHARE_PREFIX = "share.";
 
-    @ManyToOne(fetch=FetchType.EAGER) @JoinColumn(name = "planID") @JsonManagedReference
+    @ManyToOne(fetch= EAGER) @JoinColumn(name = "planID") @JsonManagedReference
     private Plan plan;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultUser")
+    @OneToMany(fetch = LAZY, mappedBy = "defaultUser")
     @JsonManagedReference
     private List<File> files = new ArrayList<>();
-    @OneToMany(fetch= FetchType.LAZY)
+    @OneToMany(fetch= LAZY)
     private List<Payment> payments = new ArrayList<>();
     @ManyToMany(mappedBy = "defaultUsers") @JsonManagedReference
     private List<File> accessibleFiles = new ArrayList<>();

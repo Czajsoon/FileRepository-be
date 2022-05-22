@@ -2,7 +2,6 @@ package psk.project.FileRepository.file.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +22,7 @@ public class File {
   @Id
   @GeneratedValue(generator = "UUID")
   @Column(name = "ID", updatable = false, nullable = false, unique = true)
-  private UUID fileID;
+  private UUID fileId;
   @Column private String path;
   @Column @NotNull private String fileName;
   @Column private String description;
