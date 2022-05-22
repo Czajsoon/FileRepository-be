@@ -25,13 +25,17 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 public class DefaultUserEditService {
     private final DefaultUserRepository defaultUserRepository;
 
+    public void changePhoto(String userId, MultipartFile file){
+        DefaultUser defaultUser = defaultUserRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new DefaultUserNotFoundException(userId));
+        handlePhotoChange(defaultUser, file);
+        defaultUserRepository.save(defaultUser);
+    }
+
     public void edit(DefaultUserEditCommand command) {
         DefaultUser defaultUser = defaultUserRepository.findById(UUID.fromString(command.getId()))
                 .orElseThrow(() -> new DefaultUserNotFoundException(command.getId()));
 
-        if (command.getFile() != null) {
-            handlePhotoChange(defaultUser, command.getFile());
-        }
         if (command.getLogin() != null) {
             handleLoginChange(defaultUser, command.getLogin());
         }

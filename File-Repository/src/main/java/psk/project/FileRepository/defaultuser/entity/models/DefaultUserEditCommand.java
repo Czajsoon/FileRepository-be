@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Builder
@@ -18,10 +17,4 @@ public class DefaultUserEditCommand {
     private String login;
     private String password;
     private String newPassword;
-    private MultipartFile file;
-
-    public DefaultUserEditCommand withMultipartfile(MultipartFile file){
-        this.file = file;
-        return this;
-    }
 }
