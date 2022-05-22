@@ -18,6 +18,7 @@ public class DefautUserLoginResponse {
     private String surname;
     private String login;
     private String email;
+    private String shareLink;
 
     public static DefautUserLoginResponse of(DefaultUser defaultUser){
         return DefautUserLoginResponse.builder()
@@ -26,6 +27,7 @@ public class DefautUserLoginResponse {
                 .surname(defaultUser.getSurname())
                 .login(defaultUser.getLogin())
                 .email(defaultUser.getEmail())
+                .shareLink(defaultUser.getShareLink())
                 .build();
     }
 
