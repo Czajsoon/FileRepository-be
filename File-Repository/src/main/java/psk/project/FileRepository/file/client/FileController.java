@@ -2,12 +2,13 @@ package psk.project.FileRepository.file.client;
 
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import psk.project.FileRepository.file.models.FileCommand;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileCommand;
+import psk.project.FileRepository.file.entity.models.FileDTO;
+import psk.project.FileRepository.file.entity.models.FileResponse;
 import psk.project.FileRepository.file.services.FileFacade;
 
 import java.math.BigInteger;
@@ -25,13 +26,18 @@ public class FileController {
         return fileFacade.getFileInfoById(fileId);
     }
 
+    @GetMapping(value = "/preview/{fileId}", produces = MediaType.ALL_VALUE)
+    public byte[] filePreview(@PathVariable String fileId){
+        return fileFacade.filePreview(fileId);
+    }
+
     @GetMapping("/download/{file}")
     public ResponseEntity<Resource> download(@PathVariable String file) {
         return fileFacade.downloadFile(file);
     }
 
     @PostMapping("/{user}")
-    public void postFile(
+    public void uploadFile(
             @PathVariable String user,
             @RequestParam MultipartFile file,
             @RequestParam(required = false) String description,

@@ -1,4 +1,4 @@
-package psk.project.FileRepository.file.models;
+package psk.project.FileRepository.file.entity.models;
 
 import lombok.*;
 
@@ -14,6 +14,7 @@ public class FileSearchCommand {
     private String operation;
     private String path;
     private String description;
+    private boolean shared = true;
     private final String nameFileFormat = "fileFormat";
     private final String nameUser = "defaultUser";
     private final String nameFileName = "pureFileName";

@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundException;
 import psk.project.FileRepository.file.dao.FileDAO;
 import psk.project.FileRepository.file.exceptions.FileNotSavedException;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileDTO;
+import psk.project.FileRepository.file.entity.models.FileResponse;
 
 @Service
 @AllArgsConstructor

@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import psk.project.FileRepository.defaultuser.exceptions.DefaultUserLoginAlreadyExistsException;
-import psk.project.FileRepository.defaultuser.exceptions.DefaultUserNotFoundException;
-import psk.project.FileRepository.defaultuser.exceptions.DefaultUserRegisterException;
-import psk.project.FileRepository.defaultuser.exceptions.DefaultUserWrongAuthorizationDataException;
+import psk.project.FileRepository.defaultuser.exceptions.*;
 
 @ControllerAdvice
 @Slf4j
@@ -29,7 +26,9 @@ public class DefaultUserAdviceController {
 
     @ResponseBody
     @ExceptionHandler(value = {
-            DefaultUserLoginAlreadyExistsException.class
+            DefaultUserLoginAlreadyExistsException.class,
+            DefaultUserPhotoException.class,
+            DefaultUserBadPasswordException.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public String conflictAdvice(RuntimeException ex) {

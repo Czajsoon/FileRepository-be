@@ -1,12 +1,6 @@
 package psk.project.FileRepository.file.services;
 
-import org.junit.jupiter.api.Test;
-import psk.project.FileRepository.file.dao.FileDAO;
-import psk.project.FileRepository.file.models.FileDTO;
-import psk.project.FileRepository.file.models.FileResponse;
 import psk.project.FileRepository.IntegrationAbstractTest;
-
-import static org.mockito.Mockito.*;
 
 class UploadFileServiceTest extends IntegrationAbstractTest {
 //

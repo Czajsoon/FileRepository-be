@@ -5,9 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import psk.project.FileRepository.file.dao.FileDAO;
 import psk.project.FileRepository.file.entity.File;
+import psk.project.FileRepository.file.entity.models.FileResponse;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
+import psk.project.FileRepository.file.exceptions.FileErrorInputStreamException;
 import psk.project.FileRepository.file.exceptions.FileNotFoundException;
-import psk.project.FileRepository.file.models.FileResponse;
-import psk.project.FileRepository.file.models.FileSearchCommand;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.util.List;
@@ -25,6 +26,11 @@ class FileResponseService {
         if (file.isPresent())
             return FileResponse.of(file.get());
         throw new FileNotFoundException(id);
+    }
+
+    public byte[] getFilePreview(String fileId) {
+        return fileDAO.getInputFileStream(fileId)
+                .orElseThrow(FileErrorInputStreamException::new);
     }
 
     public Map<String, Object> getUserFiles(String userId, FileSearchCommand searchCommand, PageCommand pageCommand) {

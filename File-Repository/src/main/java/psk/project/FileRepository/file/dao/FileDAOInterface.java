@@ -1,7 +1,7 @@
 package psk.project.FileRepository.file.dao;
 
 import org.springframework.data.domain.Page;
-import psk.project.FileRepository.file.models.FileSearchCommand;
+import psk.project.FileRepository.file.entity.models.FileSearchCommand;
 import psk.project.FileRepository.models.PageCommand;
 
 import java.util.List;

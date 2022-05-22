@@ -16,5 +16,6 @@ public interface DefaultUserRepository extends JpaRepository<DefaultUser, UUID> 
 
     Optional<DefaultUser> findDefaultUserByFacebookId(String facebookId);
 
+    Optional<DefaultUser> findDefaultUserByShareLink(String shareLink);
 
 }

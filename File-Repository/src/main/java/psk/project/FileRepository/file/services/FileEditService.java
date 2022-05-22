@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import psk.project.FileRepository.file.dao.FileDAO;
 import psk.project.FileRepository.file.entity.File;
 import psk.project.FileRepository.file.exceptions.FileNotFoundException;
-import psk.project.FileRepository.file.models.FileCommand;
+import psk.project.FileRepository.file.entity.models.FileCommand;
 import psk.project.FileRepository.file.repository.FileRepository;
 
 import java.util.UUID;

@@ -9,9 +9,12 @@ import psk.project.FileRepository.defaultuser.exceptions.DefaultUserWrongAuthori
 import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.plan.repository.PlanRepository;
+import psk.project.FileRepository.utils.PasswordHash;
 
 
 import static psk.project.FileRepository.plan.models.PlanIds.NORMAL;
+import static psk.project.FileRepository.utils.PasswordHash.hashPassword;
+import static psk.project.FileRepository.utils.StringOperationUtils.getDefaultPhotoLink;
 
 
 @Service
@@ -23,7 +26,7 @@ public class DefaultUserAuthorizeService {
 
     public DefautUserLoginResponse login(DefaultUserLoginDTO loginDTO) {
         DefaultUser defaultUser = defaultUserRepository
-                .findDefaultUserByLoginAndPassword(loginDTO.getLogin(), loginDTO.getPassword())
+                .findDefaultUserByLoginAndPassword(loginDTO.getLogin(), PasswordHash.hashPassword(loginDTO.getPassword()))
                 .stream().findFirst()
                 .orElseThrow(DefaultUserWrongAuthorizationDataException::new);
 
@@ -36,10 +39,11 @@ public class DefaultUserAuthorizeService {
         validateUserWithLogin(defaultUserDTO.getLogin());
         defaultUserRepository.save(DefaultUser.of(DefaultUserDTO.builder()
                 .name(defaultUserDTO.getName())
+                .photoLink(getDefaultPhotoLink())
                 .surname(defaultUserDTO.getSurname())
                 .email(defaultUserDTO.getEmail())
                 .login(defaultUserDTO.getLogin())
-                .password(defaultUserDTO.getPassword())
+                .password(hashPassword(defaultUserDTO.getPassword()))
                 .build(), plan));
     }
 
