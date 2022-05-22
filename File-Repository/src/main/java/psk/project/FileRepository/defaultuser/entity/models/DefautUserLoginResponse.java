@@ -21,6 +21,12 @@ public class DefautUserLoginResponse {
     private String email;
     private String shareLink;
     private BigInteger transferUsage;
+    private PlanDTO planDTO;
+
+    @Builder
+    static class PlanDTO{
+        private String name;
+    }
 
     public static DefautUserLoginResponse of(DefaultUser defaultUser){
         return DefautUserLoginResponse.builder()
@@ -29,6 +35,11 @@ public class DefautUserLoginResponse {
                 .surname(defaultUser.getSurname())
                 .login(defaultUser.getLogin())
                 .email(defaultUser.getEmail())
+                .planDTO(PlanDTO.builder()
+                        .name(defaultUser
+                                .getPlan()
+                                .getName())
+                        .build())
                 .shareLink(defaultUser.getShareLink())
                 .transferUsage(defaultUser.getTransferUsage())
                 .build();
