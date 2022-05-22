@@ -10,7 +10,6 @@ import psk.project.FileRepository.defaultuser.repository.DefaultUserRepository;
 import psk.project.FileRepository.plan.entity.Plan;
 import psk.project.FileRepository.plan.repository.PlanRepository;
 
-import java.util.UUID;
 
 import static psk.project.FileRepository.plan.models.PlanIds.NORMAL;
 
@@ -85,7 +84,7 @@ public class DefaultUserAuthorizeService {
                 .orElseThrow(DefaultUserWrongAuthorizationDataException::new);
 
         return DefaultFacebookUserResponse.builder()
-                .facebookId(defaultUser.getFacebookId())
+                .id(defaultUser.getDefaultUserID())
                 .name(defaultUser.getName())
                 .surname(defaultUser.getSurname())
                 .email(defaultUser.getEmail())
