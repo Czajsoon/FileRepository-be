@@ -113,14 +113,14 @@ public class FileDAO extends FileAbstractDAO implements FileDAOInterface<File, F
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileRepository.delete(file);
-
-        //dopisane na szybkosci
 
         DefaultUser user = userRepository
                 .findById(file.getDefaultUser().getDefaultUserID())
                 .orElseThrow(() -> new DefaultUserNotFoundException(file.getDefaultUser().getDefaultUserID().toString()));
+        file.getDefaultUsers().forEach(users -> users.getAccessibleFiles().remove(file));
+        fileRepository.delete(file);
 
+        //dopisane na szybkosci
         user.setTransferUsage(user.getTransferUsage().subtract(file.getSize()));
         userRepository.save(user);
     }
