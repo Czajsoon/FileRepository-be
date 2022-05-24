@@ -47,18 +47,6 @@ public class DefaultUser {
     @ManyToMany(mappedBy = "defaultUsers") @JsonManagedReference
     private List<File> accessibleFiles = new ArrayList<>();
 
-    public static DefaultUser of(DefaultUserDTO dto){
-        DefaultUser user = new DefaultUser();
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setLogin(dto.getLogin());
-        user.setPassword(dto.getPassword());
-        user.setEmail(dto.getEmail());
-        user.setShareLink(SHARE_PREFIX + UUID.randomUUID());
-        user.setTransferUsage(dto.getTransfer());
-        return user;
-    }
-
     public static DefaultUser of(DefaultUserDTO dto,Plan plan){
         DefaultUser user = new DefaultUser();
         user.setName(dto.getName());
@@ -77,6 +65,7 @@ public class DefaultUser {
         DefaultUser user = new DefaultUser();
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
+        user.setPhotoLink(dto.getPhotoLink());
         user.setEmail(dto.getEmail());
         user.setTransferUsage(BigInteger.ZERO);
         user.setFacebookId(dto.getFacebookId());

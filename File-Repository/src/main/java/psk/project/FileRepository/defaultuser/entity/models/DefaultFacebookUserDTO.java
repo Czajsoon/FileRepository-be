@@ -15,5 +15,6 @@ public class DefaultFacebookUserDTO {
     private String name;
     private String surname;
     private String email;
+    private String photoLink;
     private BigInteger transfer;
 }

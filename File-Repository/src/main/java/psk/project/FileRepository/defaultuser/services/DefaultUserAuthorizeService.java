@@ -68,6 +68,7 @@ public class DefaultUserAuthorizeService {
 
         defaultUserRepository.save(DefaultUser.of(DefaultFacebookUserDTO.builder()
                 .facebookId(defaultFacebookUserDTO.getFacebookId())
+                .photoLink(getDefaultPhotoLink())
                 .name(defaultFacebookUserDTO.getName())
                 .surname(defaultFacebookUserDTO.getSurname())
                 .email(defaultFacebookUserDTO.getEmail())
